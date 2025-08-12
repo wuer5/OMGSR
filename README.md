@@ -1,4 +1,3 @@
-## OMGSR: You Only Need One Mid-timestep Guidance for Real-World Image Super-Resolution
 <div align="center">
 <h2>OMGSR: You Only Need One Mid-timestep Guidance for Real-World Image Super-Resolution</h2>
 <a href='https://arxiv.org/pdf/2412.03017'><img src='https://img.shields.io/badge/Paper-Arxiv-red'></a>
