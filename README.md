@@ -21,7 +21,7 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 <h2>Timeline</h2>
-
+- **2025.8.12**: The arXiv paper is released.
 - **2025.8.6**: This repo is released.
 
 <h2>Visualization</h2>
