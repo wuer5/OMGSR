@@ -29,7 +29,7 @@ Xian Wei<sup>1&dagger;</sup>
 
 - [ ] Release the code in a week
 - [ ] Release the weight in two weeks
-
+- [ ] Develop OMGSR-Q (Qwen-Image)...
 
 ## Framework
 
