@@ -20,19 +20,22 @@ Xian Wei<sup>1&dagger;</sup>
 <sup>&dagger;</sup>Corresponding author
 </div>
 
-<h2> #:boom: Timeline</h2>
+## :boom: News
+
 - **2025.8.12**: The arXiv paper is released.
 - **2025.8.6**: This repo is released.
 
-<h2>Visualization</h2>
+## :runner: TODO
+
+- [ ] Release the code in a week
+- [ ] Release the weight in two weeks
 
 
-
-<h2>Framework</h2>
+## Framework
 
 ![teaser_img](assets/pipeline.jpg)
 
-<h2>Environment</h2>
+## Environment
 
 ```
 ## git clone this repository
@@ -45,7 +48,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-<h2>Inference</h2>
+## Quick Start
 
 <h3>1. Download the pre-trained models from huggingface</h3>
 
