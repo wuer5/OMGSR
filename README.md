@@ -20,7 +20,7 @@ Xian Wei<sup>1&dagger;</sup>
 <sup>&dagger;</sup>Corresponding author
 </div>
 
-<h2>Timeline</h2>
+<h2> #:boom: Timeline</h2>
 - **2025.8.12**: The arXiv paper is released.
 - **2025.8.6**: This repo is released.
 
