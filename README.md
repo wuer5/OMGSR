@@ -76,8 +76,8 @@ pip install -r requirements.txt
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F.
 <h3>2. Download the OMGSR Lora adapters weights</h3>
 
-- Download <a href="https://huggingface.co/stabilityai/sd-turbo">OMGSR-S-LoRA-adapter</a> to the folder ```adapters```.
-- Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">OMGSR-F-LoRA-adapter</a> to the folder ```adapters```.
+- Download <a href="#">OMGSR-S-LoRA-adapter</a> to the folder ```adapters```.
+- Download <a href="#">OMGSR-F-LoRA-adapter</a> to the folder ```adapters```.
 
 <h3>3. Prepare your testing data</h3>
 
