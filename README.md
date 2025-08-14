@@ -15,15 +15,19 @@ Mingsong Chen<sup>1</sup> |
 Xian Wei<sup>1&dagger;</sup> 
 
 <sup>1</sup>Software Engineering Institute, East China Normal University | 
-<sup>2</sup>vivo Mobile Communication Co. Ltd, Hangzhou, China |
+<sup>2</sup>vivo Mobile Communication Co. Ltd, Hangzhou, China 
+\
 <sup>*</sup>Work done during internship at vivo | 
 <sup>&dagger;</sup>Corresponding author
 </div>
 
 ## :boom: News
-
 - **2025.8.12**: The arXiv paper is released.
 - **2025.8.6**: This repo is released.
+
+## :raised_hand_with_fingers_splayed: Note
+Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss. We will release the weights related to OC-EA-DISTS Loss in the future. Please stay tuned!
+
 
 ## :runner: TODO
 - [x] ~~Release the inference code~~
@@ -31,8 +35,7 @@ Xian Wei<sup>1&dagger;</sup>
 - [ ] Release the training code
 - [ ] Develop OMGSR-Q (Qwen-Image)...
 
-## :eyes:	 Visualization
-
+## :eyes: Visualization
 ### 2k-resolution demos
 
 These demos are created by 1K-resolution OMGSR-F through our two-stage Tiled VAE & Diffusion process. **Click** the images for comparative visualization.
@@ -77,7 +80,7 @@ pip install -r requirements.txt
 <h3>2. Download the OMGSR Lora adapters weights</h3>
 
 - Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-s-512-weight-33000```.
-- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-f-1024-weight-8000```.
+- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-f-1024-weight-```.
 
 <h3>3. Prepare your testing data</h3>
 
