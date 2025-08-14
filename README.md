@@ -26,12 +26,12 @@ Xian Wei<sup>1&dagger;</sup>
 - **2025.8.6**: This repo is released.
 
 ## :runner: TODO
-
-- [ ] Release the code in a week
-- [ ] Release the weight in two weeks
+- [x] ~~Release the inference code~~
+- [x] ~~Release the weight~~
+- [ ] Release the training code
 - [ ] Develop OMGSR-Q (Qwen-Image)...
 
-## Visualization
+## :eyes:	 Visualization
 
 ### 2k-resolution demos
 
@@ -51,11 +51,11 @@ These demos are created by 1K-resolution OMGSR-F. **Click** the images for compa
 [<img src="assets/1k-3.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgz)
 [<img src="assets/1k-4.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgw)
 
-## Training and inference pipelines
+## :fire: Training and inference pipelines
 
 ![teaser_img](assets/arch.png)
 
-## Environment
+## :wrench: Environment
 
 ```
 # git clone this repository
@@ -68,7 +68,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Quick Start
+## :rocket: Quick Inference
 
 <h3>1. Download the pre-trained models from huggingface</h3>
 
@@ -76,25 +76,25 @@ pip install -r requirements.txt
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F.
 <h3>2. Download the OMGSR Lora adapters weights</h3>
 
-- Download <a href="#">OMGSR-S-LoRA-adapter</a> to the folder ```adapters```.
-- Download <a href="#">OMGSR-F-LoRA-adapter</a> to the folder ```adapters```.
+- Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512</a> LoRA-adapter to the folder ```adapters```.
+- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024</a> LoRA-adapter to the folder ```adapters```.
 
 <h3>3. Prepare your testing data</h3>
 
 You should put the testing data (```.png```, ```.jpg```, ```.jpeg``` formats) to the folder ```tests```.
 
-<h3>4. Start to infer</h3>
+<h3>4. Start to inference</h3>
 
-For OMGSR-S:
+For OMGSR-S-512:
+```bash
+bash infer_omgsr_s.sh
+```
+For OMGSR-F-1024:
+```bash
+bash infer_omgsr_f.sh
 ```
 
-```
-For OMGSR-F:
-```
-
-```
-
-<h2>Training</h2>
+## :hugs: Training 
 
 <h3>1. Prepare your training datasets</h3>
 
@@ -128,5 +128,25 @@ Start to train OMGSR-F at 1k-resolution:
 ```
 
 ```
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=wuer5/OMGSR)
 
+
+## :book: Citation
+
+If OMGSR is helpful to you, you could star it or cite this paper.
+```bibtex
+@misc{wu2025omgsrneedmidtimestepguidance,
+      title={OMGSR: You Only Need One Mid-timestep Guidance for Real-World Image Super-Resolution}, 
+      author={Zhiqiang Wu and Zhaomang Sun and Tong Zhou and Bingtao Fu and Ji Cong and Yitong Dong and Huaqi Zhang and Xuan Tang and Mingsong Chen and Xian Wei},
+      year={2025},
+      eprint={2508.08227},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2508.08227}, 
+}
+```
+
+## :email: Contact
+
+If you have any questions, please contact 51265902095@stu.ecnu.edu.cn.
+
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=wuer5/OMGSR)
