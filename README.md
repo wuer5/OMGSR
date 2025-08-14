@@ -31,15 +31,29 @@ Xian Wei<sup>1&dagger;</sup>
 - [ ] Release the weight in two weeks
 - [ ] Develop OMGSR-Q (Qwen-Image)...
 
-## 2K-resolution Demo using two-stage Tiled VAE & Diffusion
+## Visualization
 
+### 2k-resolution demos
+
+These demos are created by 1K-resolution OMGSR-F through our two-stage Tiled VAE & Diffusion process. Click the images for comparative visualization.
 
 [<img src="assets/2k-1.png" height="205px"/>](https://imgsli.com/NDA2NjYz)
 [<img src="assets/2k-2.png" height="205px"/>](https://imgsli.com/NDA2NjY2)
+[<img src="assets/2k-3.png" height="205px"/>](https://imgsli.com/NDA2Njc5)
+[<img src="assets/2k-4.png" height="205px"/>](https://imgsli.com/NDA2Njgw)
+
+### 1k-resolution demos
+
+These demos are created by 1K-resolution OMGSR-F Click the images for comparative visualization.
+
+[<img src="assets/1k-1.png" height="205px"/>](https://imgsli.com/NDA2Njgx)
+[<img src="assets/1k-2.png" height="205px"/>](https://imgsli.com/NDA2Njgy)
+[<img src="assets/1k-3.png" height="205px"/>](https://imgsli.com/NDA2Njgz)
+[<img src="assets/1k-4.png" height="205px"/>](https://imgsli.com/NDA2Njgw)
 
 ## Framework
 
-![teaser_img](assets/pipeline.jpg)
+![teaser_img](assets/arch.png)
 
 ## Environment
 
