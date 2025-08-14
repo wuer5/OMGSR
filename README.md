@@ -35,30 +35,30 @@ Xian Wei<sup>1&dagger;</sup>
 
 ### 2k-resolution demos
 
-These demos are created by 1K-resolution OMGSR-F through our two-stage Tiled VAE & Diffusion process. Click the images for comparative visualization.
+These demos are created by 1K-resolution OMGSR-F through our two-stage Tiled VAE & Diffusion process. **Click** the images for comparative visualization.
 
-[<img src="assets/2k-1.png" height="200px"/>](https://imgsli.com/NDA2NjYz)
-[<img src="assets/2k-2.png" height="200px"/>](https://imgsli.com/NDA2NjY2)
-[<img src="assets/2k-3.png" height="200px"/>](https://imgsli.com/NDA2Njc5)
-[<img src="assets/2k-4.png" height="200px"/>](https://imgsli.com/NDA2Njgw)
+[<img src="assets/2k-1.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2NjYz)
+[<img src="assets/2k-2.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2NjY2)
+[<img src="assets/2k-3.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njc5)
+[<img src="assets/2k-4.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgw)
 
 ### 1k-resolution demos
 
-These demos are created by 1K-resolution OMGSR-F Click the images for comparative visualization.
+These demos are created by 1K-resolution OMGSR-F. **Click** the images for comparative visualization.
 
-[<img src="assets/1k-1.png" height="200px"/>](https://imgsli.com/NDA2Njgx)
-[<img src="assets/1k-2.png" height="200px"/>](https://imgsli.com/NDA2Njgy)
-[<img src="assets/1k-3.png" height="200px"/>](https://imgsli.com/NDA2Njgz)
-[<img src="assets/1k-4.png" height="200px"/>](https://imgsli.com/NDA2Njgw)
+[<img src="assets/1k-1.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgx)
+[<img src="assets/1k-2.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgy)
+[<img src="assets/1k-3.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgz)
+[<img src="assets/1k-4.png" target="_blank" height="200px"/>](https://imgsli.com/NDA2Njgw)
 
-## Framework
+## Training and inference pipelines
 
 ![teaser_img](assets/arch.png)
 
 ## Environment
 
 ```
-## git clone this repository
+# git clone this repository
 git clone https://github.com/wuer5/OMGSR.git
 cd OMGSR
 # create an environment
