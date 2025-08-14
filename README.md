@@ -15,8 +15,7 @@ Mingsong Chen<sup>1</sup> |
 Xian Wei<sup>1&dagger;</sup> 
 
 <sup>1</sup>Software Engineering Institute, East China Normal University | 
-<sup>2</sup>vivo Mobile Communication Co. Ltd, Hangzhou, China 
-\
+<sup>2</sup>vivo Mobile Communication Co. Ltd, Hangzhou, China |
 <sup>*</sup>Work done during internship at vivo | 
 <sup>&dagger;</sup>Corresponding author
 </div>
