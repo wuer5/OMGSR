@@ -31,6 +31,12 @@ Xian Wei<sup>1&dagger;</sup>
 - [ ] Release the weight in two weeks
 - [ ] Develop OMGSR-Q (Qwen-Image)...
 
+## 2K-resolution Demo using two-stage Tiled VAE & Diffusion
+
+
+[<img src="assets/2k-1.png" height="205px"/>](https://imgsli.com/NDA2NjYz)
+[<img src="assets/2k-2.png" height="205px"/>](https://imgsli.com/NDA2NjY2)
+
 ## Framework
 
 ![teaser_img](assets/pipeline.jpg)
