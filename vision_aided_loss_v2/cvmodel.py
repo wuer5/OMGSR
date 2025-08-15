@@ -178,8 +178,8 @@ class DINOv2(torch.nn.Module):
         )
 
         self.cv_type = cv_type
-        # self.model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')  # without cls token
-        self.model = torch.hub.load('/root/.cache/torch/hub/facebookresearch_dinov2_main', 'dinov2_vitb14', source='local')  # without cls token
+        self.model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')  # without cls token
+        # self.model = torch.hub.load('/root/.cache/torch/hub/facebookresearch_dinov2_main', 'dinov2_vitb14', source='local')  # without cls token
         self.model.eval()
         self.model.requires_grad = False
         self.input_resolution = 518 

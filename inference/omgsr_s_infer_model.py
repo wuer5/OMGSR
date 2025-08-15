@@ -3,7 +3,7 @@ import torch
 import time
 from diffusers import AutoencoderKL, UNet2DConditionModel, DDPMScheduler
 from peft import PeftModel
-from inference.vaehook import VAEHook
+from vaehook import VAEHook
 
 class OMGSR_S_Infer(torch.nn.Module):
     def __init__(self, sd_path, lora_path, mid_timestep, device, weight_dtype):

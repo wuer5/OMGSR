@@ -69,7 +69,7 @@ from einops import rearrange
 import os
 import sys
 sys.path.append(os.getcwd())
-import inference.devices as devices
+import devices as devices
 
 try:
     import xformers

@@ -32,7 +32,7 @@ Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo,
 ## :runner: TODO
 - [x] ~~Release the inference code~~
 - [x] ~~Release the weight~~
-- [ ] Release the training code
+- [x] ~~Release the training code~~
 - [ ] Develop OMGSR-Q (Qwen-Image)...
 
 ## :eyes: Visualization
@@ -103,33 +103,27 @@ bash infer_omgsr_f.sh
 
 You should download the training datasets ```LSDIR``` and ```FFHQ``` (first 10k images) followed by our paper settings or your custom datasets.
 
-Please generate the path list of training datasets in ```training_dataset.txt``` by:
+You need to edit ```dataset_txt_paths``` in the ```configs/xxx.yml``` like:
+
 ```
-# All LSDIR images
-python gen_txt_path.py --path [YOUR LSDIR DATASET PATH] --nums_sample all
-# The first 10k FFHQ images
-python gen_txt_path.py --path [YOUR FFHQ DATASET PATH] --nums_sample 10000
+dataset_txt_paths: [path1, path2, ...]
 ```
-Then you will get the file like
-```
-xxx.png
-xxx.png
-...
-```
+Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
+
 
 Start to train OMGSR-S at 512-resolution:
 ```
-
+bash train_omgsr_s_512.sh
 ```
 
 Start to train OMGSR-F at 512-resolution:
 ```
-
+bash train_omgsr_f_512.sh
 ```
 
 Start to train OMGSR-F at 1k-resolution:
 ```
-
+bash train_omgsr_f_1024.sh
 ```
 
 

@@ -6,7 +6,7 @@ import torch
 import torch
 from peft import PeftModel
 from diffusers import AutoencoderKL, FluxTransformer2DModel
-from inference.vaehook import VAEHook
+from vaehook import VAEHook
 import math
 import numpy as np
 
