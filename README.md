@@ -21,6 +21,7 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 ## :boom: News
+- **2025.8.16**: :hugs: The training code is released.
 - **2025.8.15**: The inference code and weights are released.
 - **2025.8.12**: The arXiv paper is released.
 - **2025.8.6**: This repo is released.
