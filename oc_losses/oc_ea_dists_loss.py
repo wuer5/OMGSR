@@ -65,13 +65,23 @@ class OCEADISTSLoss(nn.Module):
         self.sobel_operator = Sobel().to(device)
         self.sobel_operator.requires_grad_(False)
 
+    # def forward(self, x, y):
+    #     # [-1, 1] -> [0, 1]
+    #     x = OC(x * 0.5 + 0.5)
+    #     y = OC(y * 0.5 + 0.5)
+    #     d_loss = self.dists_loss(x, y)
+    #     edge_x = self.sobel_operator(x)
+    #     edge_y = self.sobel_operator(y)
+    #     e_loss = self.dists_loss(edge_x, edge_y)
+    #     total_loss = d_loss + e_loss
+    #     return total_loss
     def forward(self, x, y):
         # [-1, 1] -> [0, 1]
-        x = OC(x * 0.5 + 0.5)
-        y = OC(y * 0.5 + 0.5)
-        d_loss = self.dists_loss(x, y)
+        x = x * 0.5 + 0.5
+        y = y * 0.5 + 0.5
+        d_loss = self.dists_loss(OC(x), OC(y))
         edge_x = self.sobel_operator(x)
         edge_y = self.sobel_operator(y)
-        e_loss = self.dists_loss(edge_x, edge_y)
+        e_loss = self.dists_loss(OC(edge_x), OC(edge_y))
         total_loss = d_loss + e_loss
         return total_loss
