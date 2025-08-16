@@ -27,8 +27,9 @@ Xian Wei<sup>1&dagger;</sup>
 - **2025.8.6**: This repo is released.
 
 ## :raised_hand_with_fingers_splayed: Note
-Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss. We will release the weights related to OC-EA-DISTS Loss in the future. Please stay tuned!
+- Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss. We will release the weights related to OC-EA-DISTS Loss in the future. Please stay tuned!
 
+- OMGSR-F-1024 can also be applied to face restoration, demonstrating excellent real skin texture (due to the training of GAN). Under 1k-resolution training, training only a few thousand steps (2 h20 with 4 gradient accumulation) yields good results.
 
 ## :runner: TODO
 - [x] ~~Release the inference code~~
