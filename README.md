@@ -29,7 +29,12 @@ Xian Wei<sup>1&dagger;</sup>
 ## :raised_hand_with_fingers_splayed: Note
 - Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss. We will release the weights related to OC-EA-DISTS Loss in the future. Please stay tuned!
 
-- OMGSR-F-1024 can also be applied to face restoration, demonstrating excellent real skin texture (due to the training of GAN). Under 1k-resolution training, training only a few thousand steps (2 h20 with 4 gradient accumulation) yields good results.
+- OMGSR-F-1024 can also be applied to face restoration, demonstrating excellent real skin texture (due to the training of GAN). Under 1k-resolution training, training only a few thousand steps (dual h20s with 4 gradient accumulation) yields good results.
+
+- Training OMGSR-F-1024 requires `~80G` of CUDA memory.
+
+- If OMGSR is helpful to you, you could :star: it.
+
 
 ## :runner: TODO
 - [x] ~~Release the inference code~~
@@ -131,7 +136,7 @@ bash train_omgsr_f_1024.sh
 
 ## :book: Citation
 
-If OMGSR is helpful to you, you could star it or cite this paper.
+If OMGSR is helpful to you, you could cite this paper.
 ```bibtex
 @misc{wu2025omgsrneedmidtimestepguidance,
       title={OMGSR: You Only Need One Mid-timestep Guidance for Real-World Image Super-Resolution}, 
