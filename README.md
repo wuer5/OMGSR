@@ -31,7 +31,7 @@ Xian Wei<sup>1&dagger;</sup>
 
 - OMGSR-F-1024 can also be applied to face restoration, demonstrating excellent real skin texture (due to the training of GAN). Under 1k-resolution training, training only a few thousand steps (dual h20s with 4 gradient accumulation) yields good results.
 
-- Training OMGSR-F-1024 requires `~80G` of CUDA memory.
+- Training OMGSR-F-1024 requires `~80G` of CUDA memory with the batch size of 1.
 
 - If OMGSR is helpful to you, you could :star: it.
 
