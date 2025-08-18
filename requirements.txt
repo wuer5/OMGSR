@@ -5,7 +5,7 @@ diffusers==0.34.0
 xformers==0.0.28.post3
 omegaconf==2.3.0
 accelerate==1.1.0
-peft==0.15.0
+peft==0.17.0
 transformers==4.55.2
 antialiased-cnns==0.3
 gdown==5.2.0
