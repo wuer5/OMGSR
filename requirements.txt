@@ -15,3 +15,4 @@ sentencepiece==0.2.1
 protobuf==6.32.0
 timm==1.0.19
 clip==0.2.0
+einops==0.8.1
