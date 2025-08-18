@@ -40,7 +40,8 @@ Xian Wei<sup>1&dagger;</sup>
 - [x] ~~Release the inference code~~
 - [x] ~~Release the weight~~
 - [x] ~~Release the training code~~
-- [ ] Develop OMGSR-Q (Qwen-Image)...
+- [ ] Integrate the DINOv3 GAN loss .....
+- [ ] Develop OMGSR-Q (Qwen-Image) .....
 
 ## :eyes: Visualization
 ### 2k-resolution demos
@@ -110,10 +111,10 @@ bash infer_omgsr_f.sh
 
 You should download the training datasets ```LSDIR``` and ```FFHQ``` (first 10k images) followed by our paper settings or your custom datasets.
 
-You need to edit ```dataset_txt_paths``` in the ```configs/xxx.yml``` like:
+You need to edit ```dataset_txt_or_dir_paths``` in the ```configs/xxx.yml``` like:
 
 ```
-dataset_txt_paths: [path1, path2, ...]
+dataset_txt_or_dir_paths: [path1, path2, ...]
 ```
 Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
 
@@ -148,6 +149,8 @@ If OMGSR is helpful to you, you could cite this paper.
       url={https://arxiv.org/abs/2508.08227}, 
 }
 ```
+## :thumbsup: Acknowledgement
+The `va_loss` folder in this project is modified from <a href="https://github.com/nupurkmr9/vision-aided-gan">Vision-aided GAN</a> and <a href="https://github.com/facebookresearch/dinov2">DINOv2</a>. Thanks for these awesome work.
 
 ## :email: Contact
 
