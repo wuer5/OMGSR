@@ -3,7 +3,7 @@ seed: 123
 sd_path: stabilityai/sd-turbo
 fixed_prompt: "A high-resolution, 8K, ultra-realistic image with sharp focus, vibrant colors, and natural lighting."
 fixed_prompt_path: null
-dataset_txt_paths: []
+dataset_txt_or_dir_paths: []
 dataset_config_path: ./dataloader/realesrgan.yaml
 
 vae_lora_rank: 16
