@@ -4,7 +4,6 @@ flux_path: black-forest-labs/FLUX.1-dev
 fixed_prompt: "A high-resolution, 8K, ultra-realistic image with sharp focus, vibrant colors, and natural lighting."
 fixed_prompt_path: null
 dataset_txt_or_dir_paths: []
-dataset_config_path: ./dataloader/realesrgan.yaml
 
 vae_lora_rank: 64
 flux_transformer_lora_rank: 64
@@ -26,7 +25,7 @@ resume_from_checkpoint: null
 gradient_accumulation_steps: 4
 gradient_checkpointing: True
 enable_xformers_memory_efficient_attention: False
-learning_rate: 2e-5
+learning_rate: 5e-5
 lr_scheduler: constant
 lr_warmup_steps: 500
 lr_num_cycles: 1

@@ -4,7 +4,6 @@ qwen_image_path: Qwen/Qwen-Image
 fixed_prompt: "A high-resolution, 8K, ultra-realistic image with sharp focus, vibrant colors, and natural lighting."
 fixed_prompt_path: null
 dataset_txt_or_dir_paths: []
-dataset_config_path: ./dataloader/realesrgan.yaml
 
 vae_lora_rank: 4
 qwen_transformer_lora_rank: 4
