@@ -225,7 +225,7 @@ class OCEADISTSLoss(nn.Module):
 
     def forward(self, x, y):
         # [-1, 1] -> [0, 1]
-        x = OC(x * 0.5 + 0.5)
+        x = (x * 0.5 + 0.5)
         y = OC(y * 0.5 + 0.5)
         d_loss = self.dists_loss(x, y)
         edge_x = self.sobel_operator(x)
