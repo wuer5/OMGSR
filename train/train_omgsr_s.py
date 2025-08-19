@@ -117,7 +117,8 @@ def set_unet_lora(unet, rank):
 # Overlap-Chunked
 def OC(x, cv_type):
     if cv_type == 'dinov3': return x   # dinov3 supports multi-resolution, like 512, 1024, and higher
-    if cv_type == 'dinov2': 
+    if cv_type == 'dinov2' and x.size(-1) == 512: return x # 512
+    if cv_type == 'dinov2': # 1k
         patch_size = 518
     elif cv_type == 'dino':
         patch_size = 224
