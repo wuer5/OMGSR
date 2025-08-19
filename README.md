@@ -86,8 +86,8 @@ pip install -r requirements.txt
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F.
 <h3>2. Download the OMGSR Lora adapters weights </h3>
 
-- Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters``` (please create this folder), and rename it as ```omgsr-s-512-weight-33000```.
-- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters``` (please create this folder), and rename it as ```omgsr-f-1024-weight-8000```.
+- Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512 (OC-LPIPS)</a> LoRA-adapter to the ```adapters``` folder (please create this folder), and rename it as ```omgsr-s-512-weight-33000```.
+- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024 (OC-LPIPS)</a> LoRA-adapter to the ```adapters``` folder (please create this folder), and rename it as ```omgsr-f-1024-weight-8000```.
 
 
 <h3>3. Download the DINOv3 weight </h3>
