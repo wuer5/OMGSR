@@ -86,13 +86,13 @@ pip install -r requirements.txt
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F.
 <h3>2. Download the OMGSR Lora adapters weights </h3>
 
-- Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-s-512-weight-33000```.
-- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-f-1024-weight-8000```.
+- Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters``` (please create this folder), and rename it as ```omgsr-s-512-weight-33000```.
+- Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters``` (please create this folder), and rename it as ```omgsr-f-1024-weight-8000```.
 
 
 <h3>3. Download the DINOv3 weight </h3>
 
-Download <a href="https://drive.google.com/file/d/1sy2ywVt5ikX-r_72yZsfcWFrcUi691rZ/view?usp=sharing">DINOv3</a> weight and put it to the ```va_loss/dino_weights``` folder. If you want to use DINO (```cv_type: dino```) or DINOv2 (```cv_type: dinov2```) for training, please edit ```cv_type``` in ```configs/xxx.yml```. We recommend the default ```cv_type: dinov3```.
+Download <a href="https://drive.google.com/file/d/1sy2ywVt5ikX-r_72yZsfcWFrcUi691rZ/view?usp=sharing">DINOv3</a> weight and put it to the ```va_loss/dino_weights``` folder (please create this folder). If you want to use DINO (```cv_type: dino```) or DINOv2 (```cv_type: dinov2```) for training, please edit ```cv_type``` in ```configs/xxx.yml```. We recommend the default ```cv_type: dinov3```.
 <h3>4. Prepare your testing data</h3>
 
 You should put the testing data (```.png```, ```.jpg```, ```.jpeg``` formats) to the folder ```my_tests```.
