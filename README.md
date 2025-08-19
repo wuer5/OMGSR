@@ -79,7 +79,7 @@ pip install -r requirements.txt
 ```
 
 ## :rocket: Quick Inference
-**Note:** *The lora weights in the paper below were trained using OC-LPIPS. In this repo, we recommend using OC-EA-DISTS for training. We will release weights trained with the OC-EA-DISTS loss soon, but you can still try the current version!*
+**Note:** *The lora weights in the paper below were trained using OC-LPIPS loss. We recommend using OC-EA-DISTS loss for training. We will release weights trained with the OC-EA-DISTS loss soon, but you can still try the current version!*
 <h3>1. Download the pre-trained models from huggingface</h3>
 
 - Download <a href="https://huggingface.co/stabilityai/sd-turbo">SD-Turbo</a> for OMGSR-S.
