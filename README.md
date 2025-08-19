@@ -21,6 +21,7 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 ## :boom: News
+- **2025.8.19**: :hugs: Integrate the DINOv3 GAN loss (support 512, 1k, or higher resolution for trainings).
 - **2025.8.16**: :hugs: The training code is released.
 - **2025.8.15**: The inference code and weights are released.
 - **2025.8.12**: The arXiv paper is released.
@@ -34,12 +35,11 @@ Xian Wei<sup>1&dagger;</sup>
 - OMGSR-F-1024 requires `~79G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True`.
 - If OMGSR is helpful to you, you could :star: this repo.
 
-
 ## :runner: TODO
 - [x] ~~Release the inference code~~
 - [x] ~~Release the weight~~
 - [x] ~~Release the training code~~
-- [ ] Integrate the DINOv3 GAN loss .....
+- [x] ~~Integrate the DINOv3 GAN loss~~
 - [ ] Develop OMGSR-Q (Qwen-Image) .....
 
 ## :eyes: Visualization
@@ -88,9 +88,14 @@ pip install -r requirements.txt
 
 - Download <a href="https://drive.google.com/drive/folders/1upws0HChkaspYAYvX_HZMg92T9-yM4sg?usp=drive_link">OMGSR-S-512 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-s-512-weight-33000```.
 - Download <a href="https://drive.google.com/drive/folders/1uMiV3bOfYYIC1wFHAvKGJKuPNc2PYyg-?usp=drive_link">OMGSR-F-1024 (OC-LPIPS)</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-f-1024-weight-8000```.
+
+
+<h3>2. Download the DINOv3 weight </h3>
+
+Download <a href="https://drive.google.com/file/d/1sy2ywVt5ikX-r_72yZsfcWFrcUi691rZ/view?usp=sharing">DINOv3</a> weight and put it to the ```va_loss/dino_weights``` folder.
 <h3>3. Prepare your testing data</h3>
 
-You should put the testing data (```.png```, ```.jpg```, ```.jpeg``` formats) to the folder ```tests```.
+You should put the testing data (```.png```, ```.jpg```, ```.jpeg``` formats) to the folder ```my_tests```.
 
 <h3>4. Start to inference</h3>
 
