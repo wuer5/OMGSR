@@ -29,9 +29,9 @@ Xian Wei<sup>1&dagger;</sup>
 ## :raised_hand_with_fingers_splayed: Note
 - Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss. We will release the weights related to OC-EA-DISTS Loss in the future. Please stay tuned!
 - OMGSR-F-1024 can also be applied to face restoration, demonstrating excellent real skin texture (due to the training of GAN). Under 1k-resolution training, training only a few thousand steps (dual h20s with 4 gradient accumulation) yields good results.
-- OMGSR-S-512 requires `~21G/24G` CUDA memory with `train_batch_size=1` and `gradient_checkpointing=True/False`.
-- OMGSR-F-512 requires `~42G` CUDA memory with `train_batch_size=1` and `gradient_checkpointing=True`.
-- OMGSR-F-1024 requires `~79G` CUDA memory with `train_batch_size=1` and `gradient_checkpointing=True`.
+- OMGSR-S-512 requires `~21G/24G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True/False`.
+- OMGSR-F-512 requires `~42G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True`.
+- OMGSR-F-1024 requires `~79G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True`.
 - If OMGSR is helpful to you, you could :star: it.
 
 
