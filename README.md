@@ -32,7 +32,7 @@ Xian Wei<sup>1&dagger;</sup>
 - OMGSR-S-512 requires `~21G/24G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True/False`.
 - OMGSR-F-512 requires `~42G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True`.
 - OMGSR-F-1024 requires `~79G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True`.
-- If OMGSR is helpful to you, you could :star: it.
+- If OMGSR is helpful to you, you could :star: this repo.
 
 
 ## :runner: TODO
