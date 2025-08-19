@@ -8,6 +8,7 @@ dataset_txt_or_dir_paths: []
 vae_lora_rank: 4
 qwen_transformer_lora_rank: 4
 
+cv_type: dinov3   # dino, dinov2, dinov3
 lambda_gan: 0.5
 lambda_mse: 2
 lambda_lpips: 5

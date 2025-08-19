@@ -57,29 +57,6 @@ def encode_images(pixels: torch.Tensor, vae: torch.nn.Module):
     pixel_latents = pixel_latents* vae.config.scaling_factor
     return pixel_latents
 
-# Overlap-Chunked
-def OC(x, patch_size=224):
-    if x.size(-1) == 512 and patch_size == 518: return x
-    if len(x) == 3:
-        x = x.unsqueeze(0)
-    _, C, H, W = x.shape
-    assert H == W
-    if H % patch_size == 0:
-        stride = patch_size
-    else:
-        N = int((H / patch_size)) + 1
-        stride = patch_size - (N * patch_size - H) // (N - 1)
-    patches = F.unfold(
-        x, 
-        kernel_size=patch_size, 
-        stride=stride
-    )  
-    patches = patches.permute(0, 2, 1).reshape(
-        -1, C, patch_size, patch_size
-    )  # (num_patches, C, patch_size, patch_size)
-    
-    return patches
-
 def set_vae_encoder_lora(vae_encoder, rank):
     target_modules = [
         "conv1",
@@ -136,6 +113,33 @@ def set_unet_lora(unet, rank):
     )
     unet.print_trainable_parameters()
     return unet
+
+# Overlap-Chunked
+def OC(x, cv_type):
+    if cv_type == 'dinov3': return x   # dinov3 supports multi-resolution, like 512, 1024, and higher
+    if cv_type == 'dinov2': 
+        patch_size = 518
+    elif cv_type == 'dino':
+        patch_size = 224
+    if len(x) == 3:
+        x = x.unsqueeze(0)
+    _, C, H, W = x.shape
+    assert H == W
+    if H % patch_size == 0:
+        stride = patch_size
+    else:
+        N = int((H / patch_size)) + 1
+        stride = patch_size - (N * patch_size - H) // (N - 1)
+    patches = F.unfold(
+        x, 
+        kernel_size=patch_size, 
+        stride=stride
+    )  
+    patches = patches.permute(0, 2, 1).reshape(
+        -1, C, patch_size, patch_size
+    )  # (num_patches, C, patch_size, patch_size)
+    
+    return patches
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Simple example of a training script.")
@@ -260,10 +264,10 @@ def main():
     from oc_loss.oc_ea_dists_loss import OCEADISTSLoss
     oc_ea_dists_loss = OCEADISTSLoss(device=accelerator.device)
 
-    # dinov2 gan
+    # dino gan
     import va_loss
     net_disc = va_loss.Discriminator(
-        cv_type="dinov2",
+        cv_type=args.cv_type,
         output_type="conv_multi_level",
         loss_type="multilevel_sigmoid_s",
         device=accelerator.device
@@ -486,7 +490,7 @@ def main():
                 loss_ea_dists = oc_ea_dists_loss(pred_img, hq_img).mean() * args.lambda_ea_dists
                 # Gen Loss
                 lossG = (
-                    net_disc(OC(pred_img, 518), for_G=True).mean() * args.lambda_gan
+                    net_disc(OC(pred_img, args.cv_type), for_G=True).mean() * args.lambda_gan
                 )
 
                 total_G_loss = loss_ldr + loss_mse + loss_ea_dists + lossG 
@@ -502,13 +506,11 @@ def main():
                 fake_img = pred_img.detach()
                 # Real images
                 lossD_real = (
-                    net_disc(OC(hq_img, 518), for_real=True).mean() * args.lambda_gan
+                    net_disc(OC(hq_img, args.cv_type), for_real=True).mean() * args.lambda_gan
                 )
                 # Fake images
                 lossD_fake = (
-                    net_disc(
-                        OC(fake_img, 518), for_real=False
-                    ).mean() * args.lambda_gan
+                    net_disc(OC(fake_img, args.cv_type), for_real=False).mean() * args.lambda_gan
                 )
                 total_D_loss = lossD_real + lossD_fake
 

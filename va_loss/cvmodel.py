@@ -7,11 +7,10 @@ import timm
 import clip
 import antialiased_cnns
 import gdown
-
+from torchvision import transforms
 from va_loss.DiffAugment_pytorch import DiffAugment
 
 cur_path = os.path.dirname(os.path.abspath(__file__))
-
 
 class Vgg(nn.Module):
     def __init__(self, cv_type='adv'):
@@ -25,7 +24,7 @@ class Vgg(nn.Module):
         self.image_std = torch.tensor([0.229, 0.224, 0.225])
         
     def forward(self, x):
-        x = F.interpolate(x*0.5+0.5, size=(224, 224), mode='area')
+        x = F.interpolate(x * 0.5 + 0.5, size=(224, 224), mode='area')
         x = x - self.image_mean[:, None, None].to(x.device)
         x /= self.image_std[:, None, None].to(x.device)
         out = self.model(x)
@@ -38,11 +37,8 @@ class Vgg(nn.Module):
 
 
 class Swin(torch.nn.Module):
-
     def __init__(self, cv_type='adv'):
-        super().__init__(
-        )
-
+        super().__init__()
         self.cv_type = cv_type
         self.model = timm.create_model('swin_tiny_patch4_window7_224')
         if not os.path.exists(os.path.join(os.environ['HOME'], '.cache', 'moby_swin_t_300ep_pretrained.pth')):
@@ -77,7 +73,7 @@ class Swin(torch.nn.Module):
         return x
 
     def __call__(self, x):
-        x = F.interpolate(x*0.5+0.5, size=(224, 224), mode='area')
+        x = F.interpolate(x * 0.5 + 0.5, size=(224, 224), mode='area')
         x = x - self.image_mean[:, None, None].to(x.device)
         x /= self.image_std[:, None, None].to(x.device)
 
@@ -90,11 +86,8 @@ class Swin(torch.nn.Module):
 
 
 class CLIP(torch.nn.Module):
-
     def __init__(self, cv_type='adv'):
-        super().__init__(
-        )
-
+        super().__init__()
         self.cv_type = cv_type
         self.model, _ = clip.load("ViT-B/32", jit=False, device='cpu')
         self.model = self.model.visual
@@ -127,7 +120,7 @@ class CLIP(torch.nn.Module):
         return x1
 
     def __call__(self, x):
-        x = F.interpolate(x*0.5+0.5, size=(224, 224), mode='area')
+        x = F.interpolate(x * 0.5 + 0.5, size=(224, 224), mode='area')
         x = x - self.image_mean[:, None, None].to(x.device)
         x /= self.image_std[:, None, None].to(x.device)
             
@@ -143,42 +136,38 @@ class CLIP(torch.nn.Module):
     
     
 class DINO(torch.nn.Module):
-
     def __init__(self, cv_type='adv'):
-        super().__init__(
-        )
-
+        super().__init__()
         self.cv_type = cv_type
         self.model = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
         self.model.eval()
         self.model.requires_grad = False
         self.input_resolution = 224
-        self.image_mean = torch.tensor([0.48145466, 0.4578275, 0.40821073])
-        self.image_std = torch.tensor([0.229, 0.224, 0.225])
+        self.normalize = transforms.Normalize(
+            mean=(0.485, 0.456, 0.406),
+            std=(0.229, 0.224, 0.225),
+        )
        
     def __call__(self, x):
-        x = F.interpolate(x*0.5+0.5, size=(224, 224), mode='area')
-        x = x - self.image_mean[:, None, None].to(x.device)
-        x /= self.image_std[:, None, None].to(x.device)
-        
+        if x.size(-1) == self.input_resolution:
+            x = x * 0.5 + 0.5
+        else:
+            x = F.interpolate(x * 0.5 + 0.5, size=(self.input_resolution, self.input_resolution), mode='area')
+        x = self.normalize(x)
         if 'conv_multi_level' in self.cv_type:
             x = self.model.get_intermediate_layers(x, n=8)
             x = [x[i] for i in [0, 4, -1]]
-            x[0] = x[0][:, 1:, :].permute(0, 2, 1).reshape(-1, 768, 14, 14)
-            x[1] = x[1][:, 1:, :].permute(0, 2, 1).reshape(-1, 768, 14, 14)
+            x[0] = x[0][:, 1:, :].permute(0, 2, 1).reshape(-1, 768, self.nums_patchs, self.nums_patchs)
+            x[1] = x[1][:, 1:, :].permute(0, 2, 1).reshape(-1, 768, self.nums_patchs, self.nums_patchs)
             x[2] = x[2][:, 0, :]
         else:
             x = self.model(x)
-            
         return x
 
-# add DINOv2 for 518 resolutions
+# add DINOv2 for 518 resolution
 class DINOv2(torch.nn.Module):
-
     def __init__(self, cv_type='adv'):
-        super().__init__(
-        )
-
+        super().__init__()
         self.cv_type = cv_type
         # self.model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')  # without cls token
         self.model = torch.hub.load(f'{cur_path}/facebookresearch_dinov2_main', 'dinov2_vitb14', source='local')  # without cls token
@@ -186,17 +175,17 @@ class DINOv2(torch.nn.Module):
         self.model.requires_grad = False
         self.input_resolution = 518 
         self.nums_patchs = self.input_resolution // 14
-        self.image_mean = torch.tensor([0.48145466, 0.4578275, 0.40821073])
-        self.image_std = torch.tensor([0.229, 0.224, 0.225])
+        self.normalize = transforms.Normalize(
+            mean=(0.485, 0.456, 0.406),
+            std=(0.229, 0.224, 0.225),
+        )
        
     def __call__(self, x):
         if x.size(-1) == self.input_resolution:
             x = x * 0.5 + 0.5
         else:
-            x = F.interpolate(x*0.5+0.5, size=(self.input_resolution, self.input_resolution), mode='area')
-        x = x - self.image_mean[:, None, None].to(x.device)
-        x /= self.image_std[:, None, None].to(x.device)
-        
+            x = F.interpolate(x * 0.5 + 0.5, size=(self.input_resolution, self.input_resolution), mode='area')
+        x = self.normalize(x)
         if 'conv_multi_level' in self.cv_type:
             x = self.model.get_intermediate_layers(x, n=8)
             x = [x[i] for i in [0, 4, -1]]
@@ -208,24 +197,54 @@ class DINOv2(torch.nn.Module):
             
         return x
 
-class CVBackbone(torch.nn.Module):
+# add DINOv3 for 512, 1k or higher resolution
+class DINOv3(torch.nn.Module):
+    def __init__(self, cv_type='adv'):
+        super().__init__()
 
-    def __init__(self, cv_type, output_type, diffaug=False, device='cpu'):
-        super().__init__(
+        self.cv_type = cv_type
+        # self.model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')  # without cls token
+        self.model = torch.hub.load(f'{cur_path}/facebookresearch_dinov3_main', 'dinov3_vitb16', source='local', 
+                                    weights=f'{cur_path}/dino_weights/dinov3_vitb16_pretrain_lvd1689m-73cec8be.pth')  # without cls token
+        self.model.eval()
+        self.model.requires_grad = False
+        self.normalize = transforms.Normalize(
+            mean=(0.485, 0.456, 0.406),
+            std=(0.229, 0.224, 0.225),
         )
+        
+    def __call__(self, x):
+        nums_patchs = x.size(-1) // 16
+        # [-1, 1] -> [0, 1]
+        x = x * 0.5 + 0.5
+        x = self.normalize(x)
+        if 'conv_multi_level' in self.cv_type:
+            x = self.model.get_intermediate_layers(x, n=8)
+            x = [x[i] for i in [0, 4, -1]]
+            x[0] = x[0].permute(0, 2, 1).reshape(-1, 768, nums_patchs, nums_patchs)   
+            x[1] = x[1].permute(0, 2, 1).reshape(-1, 768, nums_patchs, nums_patchs)
+            # x[2] = x[2]
+        else:
+            x = self.model(x)
+        return x
+
+class CVBackbone(torch.nn.Module):
+    def __init__(self, cv_type, output_type, diffaug=False, device='cpu'):
+        super().__init__()
         cv_type = cv_type.split('+')
         output_type = output_type.split('+')
         self.class_name_dict = {
-                'seg_ade': 'va_loss.swintaskspecific.Swin',
-                'det_coco': 'va_loss.swintaskspecific.Swin',
-                'clip': 'va_loss.cvmodel.CLIP',
-                'dino': 'va_loss.cvmodel.DINO',
-                'dinov2': 'va_loss.cvmodel.DINOv2',  # add here for DINOv2
-                'vgg': 'va_loss.cvmodel.Vgg',
-                'swin': 'va_loss.cvmodel.Swin',
-                'face_seg': 'va_loss.face_parsing.Parsing',
-                'face_normals': 'va_loss.face_normals.Normals'
-            }
+            'seg_ade': 'va_loss.swintaskspecific.Swin',
+            'det_coco': 'va_loss.swintaskspecific.Swin',
+            'clip': 'va_loss.cvmodel.CLIP',
+            'dino': 'va_loss.cvmodel.DINO',
+            'dinov2': 'va_loss.cvmodel.DINOv2',  # add here for DINOv2
+            'dinov3': 'va_loss.cvmodel.DINOv3',  # add here for DINOv3
+            'vgg': 'va_loss.cvmodel.Vgg',
+            'swin': 'va_loss.cvmodel.Swin',
+            'face_seg': 'va_loss.face_parsing.Parsing',
+            'face_normals': 'va_loss.face_normals.Normals'
+        }
 
         self.cv_type = cv_type
         self.policy = ''
