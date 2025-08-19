@@ -10,7 +10,6 @@ cur_path = os.path.dirname(os.path.abspath(__file__))
 
 # Overlap-Chunked
 def OC(x, patch_size=224):
-    if x.size(-1) == 512 and patch_size == 518: return x
     if len(x) == 3:
         x = x.unsqueeze(0)
     _, C, H, W = x.shape
