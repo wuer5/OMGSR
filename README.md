@@ -110,7 +110,23 @@ bash infer_omgsr_f.sh
 
 ## :hugs: Training 
 
-<h3>1. Prepare your training datasets</h3>
+<h3>1. Pre-compute your optimal mid-timestep</h3>
+Note: Unlike the calculations in the paper, we revise the calculation formula. You can execute the command to obtain the relatively optimal mid-timestep.
+
+For OMGSR-S-512:
+```
+python mid_timestep/mid_timestep_sd.py --sd_path stabilityai/sd-turbo --dataset_paths [xxx, xxx] --resolution 512
+```
+For OMGSR-F-512:
+```
+python mid_timestep/mid_timestep_flux.py --flux_path black-forest-labs/FLUX.1-dev --dataset_paths [xxx, xxx] --resolution 512
+```
+For OMGSR-F-512:
+```
+python mid_timestep/mid_timestep_flux.py --flux_path black-forest-labs/FLUX.1-dev --dataset_paths [xxx, xxx] --resolution 1024
+```
+
+<h3>2. Prepare your training datasets</h3>
 
 You should download the training datasets ```LSDIR``` and ```FFHQ``` (first 10k images) followed by our paper settings or your custom datasets.
 
@@ -121,7 +137,7 @@ dataset_txt_or_dir_paths: [path1, path2, ...]
 ```
 Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
 
-
+<h3>3. Start to train</h3>
 Start to train OMGSR-S at 512-resolution:
 ```
 bash train_omgsr_s_512.sh
