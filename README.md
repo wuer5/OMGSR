@@ -148,6 +148,9 @@ dataset_txt_or_dir_paths: [path1, path2, ...]
 Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
 
 <h3>3. Start to train</h3>
+
+Please edit ```configs/xxx.yml``` for your own configuration.
+Note: Do not forget to edit ```mid_timestep: [your optimal mid-timestep]``` in ```configs/xxx.yml```.
 Start to train OMGSR-S at 512-resolution:
 ```
 bash train_omgsr_s_512.sh
