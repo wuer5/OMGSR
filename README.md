@@ -150,7 +150,8 @@ Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the pa
 <h3>3. Start to train</h3>
 
 Please edit ```configs/xxx.yml``` for your own configuration.
-Note: Do not forget to edit ```mid_timestep: [your optimal mid-timestep]``` in ```configs/xxx.yml```.
+Note: Do not forget to edit ```mid_timestep: [your optimal mid-timestep]``` in ```configs/xxx.yml```. Also, if you train OMGSR in ```mid_timestep: [your optimal mid-timestep]```, do not forget to add ```mid_timestep: [your optimal mid-timestep]``` in ```infer_omgsr_x.sh```.
+
 Start to train OMGSR-S at 512-resolution:
 ```
 bash train_omgsr_s_512.sh
