@@ -21,6 +21,7 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 ## :boom: News
+- **2025.8.21**: :hugs: The pre-computed scripts of optimal mid-timestep are released.
 - **2025.8.19**: :hugs: Integrate the DINOv3 GAN loss (support 512, 1k, or higher resolution for training).
 - **2025.8.16**: :hugs: The training code is released.
 - **2025.8.15**: The inference code and weights are released.
