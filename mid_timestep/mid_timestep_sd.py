@@ -132,7 +132,7 @@ def main():
 def parse_args():
     parser = argparse.ArgumentParser(description="Find optimal timestep for diffusion model")
     
-    parser.add_argument("--dataset_paths", type=str, nargs='+', required=True, 
+    parser.add_argument("--dataset_txt_or_dir_paths", type=str, nargs='+', required=True, 
                        help="List of dataset paths or txt files containing paths")
     parser.add_argument("--sd_path", default="stabilityai/sd-turbo",
                        help="Path to sd model")
