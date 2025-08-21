@@ -28,7 +28,7 @@ def main():
     loss_accumulators = {t: 0.0 for t in select_timestep}
     sample_counts = {t: 0 for t in select_timestep}
     
-    train_dataset = PairedDataset(args.dataset_paths, args.resolution)
+    train_dataset = PairedDataset(args.dataset_txt_or_dir_paths, args.resolution)
     
     if args.max_samples is not None and args.max_samples < len(train_dataset):
         train_dataset = torch.utils.data.Subset(
@@ -133,7 +133,7 @@ def main():
 def parse_args():
     parser = argparse.ArgumentParser(description="Find optimal timestep for diffusion model")
     
-    parser.add_argument("--dataset_paths", type=list, default=[], 
+    parser.add_argument("--dataset_txt_or_dir_paths", type=list, default=[], 
                        help="List of dataset paths or txt files containing paths")
     parser.add_argument("--sd_path", default="stabilityai/sd-turbo",
                        help="Path to sd model")
