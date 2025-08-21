@@ -127,7 +127,7 @@ python mid_timestep/mid_timestep_flux.py \
 --dataset_paths [xxx, xxx] \
 --resolution 512
 ```
-For OMGSR-F-512:
+For OMGSR-F-1024:
 ```
 python mid_timestep/mid_timestep_flux.py \
 --flux_path black-forest-labs/FLUX.1-dev \
