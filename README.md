@@ -81,7 +81,7 @@ pip install -r requirements.txt
 
 ## :rocket: Quick Inference
 **Note:** *The lora weights in the paper below were trained using OC-LPIPS loss. We recommend using OC-EA-DISTS loss for training. We will release weights trained with the OC-EA-DISTS loss soon, but you can still try the current version!*
-<h3>1. Download the pre-trained models from huggingface</h3>
+<h3>1. Download the pre-trained models from HuggingFace </h3>
 
 - Download <a href="https://huggingface.co/stabilityai/sd-turbo">SD-Turbo</a> for OMGSR-S.
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F.
@@ -170,7 +170,7 @@ bash train_omgsr_f_1024.sh
 
 ## :book: Citation
 
-If OMGSR is helpful to you, you could cite this paper.
+If OMGSR is helpful to you, you can cite this paper.
 ```bibtex
 @misc{wu2025omgsrneedmidtimestepguidance,
       title={OMGSR: You Only Need One Mid-timestep Guidance for Real-World Image Super-Resolution}, 
@@ -183,7 +183,7 @@ If OMGSR is helpful to you, you could cite this paper.
 }
 ```
 ## :thumbsup: Acknowledgement
-The `va_loss` folder in this project is modified from <a href="https://github.com/nupurkmr9/vision-aided-gan">Vision-aided GAN</a> and <a href="https://github.com/facebookresearch/dinov2">DINOv2</a>. Thanks for these awesome work.
+The `va_loss` folder in this project is modified from <a href="https://github.com/nupurkmr9/vision-aided-gan">Vision-aided GAN</a> and <a href="https://github.com/facebookresearch/dinov2">DINOv2</a>/<a href="https://github.com/facebookresearch/dinov3">DINOv3</a>. Thanks for these awesome works.
 
 ## :email: Contact
 
