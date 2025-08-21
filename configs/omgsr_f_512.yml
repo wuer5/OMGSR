@@ -14,7 +14,7 @@ lambda_mse: 2
 lambda_lpips: 5
 lambda_ldr: 5
 lambda_ea_dists: 5
-mid_timestep: 295
+mid_timestep: 346  # current pre-computation optimal mid-timestep for omgsr-f-512
 
 output_dir: ./trainings/omgsr_f_512
 resolution: 512
