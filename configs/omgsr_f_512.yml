@@ -1,7 +1,7 @@
 model: omgsr_f_512
 seed: 123
 flux_path: black-forest-labs/FLUX.1-dev
-fixed_prompt: "A high-resolution, 8K, ultra-realistic image with sharp focus, vibrant colors, and natural lighting."
+fixed_prompt: ""   # empty prompt is ok!
 fixed_prompt_path: null
 dataset_txt_or_dir_paths: []
 
