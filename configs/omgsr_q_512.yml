@@ -1,7 +1,7 @@
 model: omgsr_q_512
 seed: 123
 qwen_image_path: Qwen/Qwen-Image
-fixed_prompt: "A high-resolution, 8K, ultra-realistic image with sharp focus, vibrant colors, and natural lighting."
+fixed_prompt: ""   # empty prompt is ok!
 fixed_prompt_path: null
 dataset_txt_or_dir_paths: []
 
@@ -14,7 +14,7 @@ lambda_mse: 2
 lambda_lpips: 5
 lambda_ldr: 5
 lambda_ea_dists: 5
-mid_timestep: 295
+mid_timestep: 346
 
 output_dir: ./trainings/omgsr_q_512
 resolution: 512
