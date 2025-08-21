@@ -4,9 +4,8 @@ from tqdm import tqdm
 import argparse
 import sys
 import os
-
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 from dataset.my_dataset import PairedDataset
 from diffusers import AutoencoderKL, DDPMScheduler
 
