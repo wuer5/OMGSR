@@ -117,14 +117,14 @@ For OMGSR-S-512:
 ```
 python mid_timestep/mid_timestep_sd.py \
 --sd_path stabilityai/sd-turbo \
---dataset_txt_or_dir_paths [xxx, xxx] \
+--dataset_txt_or_dir_paths xxx xxx \
 --resolution 512
 ```
 For OMGSR-F-512:
 ```
 python mid_timestep/mid_timestep_flux.py \
 --flux_path black-forest-labs/FLUX.1-dev \
---dataset_txt_or_dir_paths [xxx, xxx] \
+--dataset_txt_or_dir_paths xxx xxx \
 --resolution 512
 ```
 For OMGSR-F-1024:
