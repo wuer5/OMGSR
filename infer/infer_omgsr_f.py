@@ -60,7 +60,7 @@ def main(args):
     else:
         # Get all input images
         if os.path.isdir(args.input_image):
-            image_names = sorted(glob.glob(f"{args.input_image}/*.png"))
+            image_names = sorted(glob.glob(f"{args.input_image}/*.png") + glob.glob(f"{args.input_image}/*.jpg") + glob.glob(f"{args.input_image}/*.jpeg"))
         else:
             image_names = [args.input_image]
 
@@ -72,24 +72,10 @@ def main(args):
         # Load the input image
         input_image = Image.open(image_name).convert("RGB")
         ori_width, ori_height = input_image.size
-        rscale = args.upscale
-        resize_flag = False
-        # print(ori_width, ori_height)
-        # Calculate the minimum dimensions needed
-        min_dim = min(ori_width, ori_height)
-        if min_dim < args.process_size // rscale:
-            scale = (args.process_size // rscale) / min_dim
-            new_width = int(scale * ori_width)
-            new_height = int(scale * ori_height)
-            input_image = input_image.resize((new_width, new_height))
-            resize_flag = True
-        else:
-            new_width, new_height = ori_width, ori_height
+        new_width, new_height = ori_width * args.upscale, ori_height * args.upscale
 
         # Upscale the image
-        input_image = input_image.resize(
-            (new_width * rscale, new_height * rscale)
-        )
+        input_image = input_image.resize((new_width, new_height))
 
         # Pad the image to make it a multiple of process_size
         def pad_to_multiple(image, multiple):
@@ -110,7 +96,7 @@ def main(args):
         # Pad to multiple of process_size
         padded_image, original_padded_size = pad_to_multiple(input_image, args.process_size)
         padded_width, padded_height = padded_image.size
-        print(padded_width, padded_height)
+        print(f"Process size: {padded_width}x{padded_height}")
         bname = os.path.basename(image_name).split('.')[0] + ".png"
 
         # Process the image
@@ -130,10 +116,6 @@ def main(args):
             output_pil = adain_color_fix(target=output_pil, source=input_image)
         elif args.align_method == "wavelet":
             output_pil = wavelet_color_fix(target=output_pil, source=input_image)
-
-        # If we initially resized, now resize back to original dimensions multiplied by upscale factor
-        if resize_flag:
-            output_pil = output_pil.resize(int(args.upscale * ori_width), int(args.upscale * ori_height))
         
         output_pil.save(os.path.join(args.output_dir, bname))
 
