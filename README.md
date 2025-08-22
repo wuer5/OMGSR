@@ -114,21 +114,21 @@ bash infer_omgsr_f.sh
 <h3>1. Pre-compute your optimal mid-timestep</h3>
 Note: Unlike the calculations in the paper, we revise the calculation formula. You can execute the command to obtain the relatively optimal mid-timestep.
 
-For OMGSR-S-512 (optimal ```mid_timestep: 369``` in our testing):
+For OMGSR-S-512:
 ```
 python mid_timestep/mid_timestep_sd.py \
     --sd_path stabilityai/sd-turbo \
     --dataset_txt_or_dir_paths xxx xxx \
     --resolution 512
 ```
-For OMGSR-F-512 (optimal ```mid_timestep: 346``` in our testing):
+For OMGSR-F-512:
 ```
 python mid_timestep/mid_timestep_flux.py \
     --flux_path black-forest-labs/FLUX.1-dev \
     --dataset_txt_or_dir_paths xxx xxx \
     --resolution 512
 ```
-For OMGSR-F-1024 (optimal ```mid_timestep: 433``` in our testing):
+For OMGSR-F-1024:
 ```
 python mid_timestep/mid_timestep_flux.py \
     --flux_path black-forest-labs/FLUX.1-dev \
