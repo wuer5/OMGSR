@@ -95,11 +95,13 @@ def main(args):
         padded_width, padded_height = padded_image.size
         print(f"Process size: {padded_width}x{padded_height}")
         bname = os.path.basename(image_name).split('.')[0] + ".png"
-
+        
+        tile_size = args.process_size // 8
+        tile_overlap = tile_size // 4
         # Process the image
         with torch.no_grad():
             lq_img = F.to_tensor(padded_image).unsqueeze(0).cuda() * 2 - 1
-            output_image = net_sr(lq_img, prompt_embeds, args.tile_size, args.tile_overlap)
+            output_image = net_sr(lq_img, prompt_embeds, tile_size, tile_overlap)
 
         output_image = output_image * 0.5 + 0.5
         output_image = torch.clip(output_image, 0, 1)
@@ -147,10 +149,6 @@ if __name__ == "__main__":
                         help="Prompt for text conditioning (can specify multiple)")
     parser.add_argument("--mid_timestep", type=int, default=195,
                         help="Mid timestep for generation")
-    parser.add_argument("--tile_size", type=int, default=64,
-                        help="Tile size for processing")
-    parser.add_argument("--tile_overlap", type=int, default=16,
-                        help="Tile overlap for processing")
     args = parser.parse_args()
     
     # Convert weight_dtype string to torch dtype
