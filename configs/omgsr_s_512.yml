@@ -14,7 +14,7 @@ lambda_mse: 2
 lambda_lpips: 5
 lambda_ldr: 5
 lambda_ea_dists: 5
-mid_timestep: 369  # ?
+mid_timestep: 191   # OK!
 
 output_dir: ./trainings/omgsr_s_512
 resolution: 512
