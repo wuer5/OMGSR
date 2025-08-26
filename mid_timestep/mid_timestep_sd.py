@@ -66,9 +66,9 @@ def main():
                 1 - noise_scheduler.alphas_cumprod[t]
             )
             target_latent = hq_latent * sqrt_alphas_cumprod_t + noise * sqrt_one_minus_alphas_cumprod_t
-            target_noise = torch.nn.functional.mse_loss(target_latent, hq_latent, reduction='mean')
-            lq_noise = torch.nn.functional.mse_loss(lq_latent, hq_latent, reduction='mean')
-            loss = torch.abs(target_noise - lq_noise)
+            target_noise = torch.abs(target_latent - hq_latent)
+            lq_noise = torch.abs(lq_latent - hq_latent)
+            loss = torch.nn.functional.mse_loss(target_noise, lq_noise, reduction="mean")
 
             loss_accumulators[t] += loss.item() * batch_size
             sample_counts[t] += batch_size
