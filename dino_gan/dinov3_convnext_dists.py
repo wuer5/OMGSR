@@ -30,7 +30,7 @@ class L2pooling(nn.Module):
     
 cur_path = "dino_gan"
 class DINOv3Convnext(torch.nn.Module):
-    def __init__(self, dino_convnext_size="large"):
+    def __init__(self, dinov3_convnext_size="large"):
         super().__init__()
         dino_convnext_weights = {
             'tiny': 'dinov3_convnext_tiny_pretrain_lvd1689m-21b726bb.pth',
@@ -38,10 +38,10 @@ class DINOv3Convnext(torch.nn.Module):
             'base': 'dinov3_convnext_base_pretrain_lvd1689m-801f2ba9.pth',
             'large':'dinov3_convnext_large_pretrain_lvd1689m-61fa432d.pth',
         }
-        assert dino_convnext_size in dino_convnext_weights.keys(), f'`dino_convnext_size` must be in {dino_convnext_weights.keys()}'
+        assert dinov3_convnext_size in dino_convnext_weights.keys(), f'`dinov3_convnext_size` must be in {dino_convnext_weights.keys()}'
 
         self.model = torch.hub.load(
-            f'{cur_path}/facebookresearch_dinov3_main', f'dinov3_convnext_{dino_convnext_size}', source='local',
+            f'{cur_path}/facebookresearch_dinov3_main', f'dinov3_convnext_{dinov3_convnext_size}', source='local',
             weights=f"{cur_path}/dino_weights/dinov3_convnext_large_pretrain_lvd1689m-61fa432d.pth")  
         self.model.eval()
         self.model.requires_grad = False
@@ -76,9 +76,9 @@ class DINOv3Convnext(torch.nn.Module):
         return [x] + feats
 
 class DINOv3ConvnextDISTS(torch.nn.Module):
-    def __init__(self, dino_convnext_size="large"):
+    def __init__(self, dinov3_convnext_size="large"):
         super().__init__()
-        self.dino = DINOv3Convnext(dino_convnext_size)
+        self.dino = DINOv3Convnext(dinov3_convnext_size)
         self.dino.requires_grad_(False)
         self.chns = [3] + self.dino.chns
         self.init_value = 1 / (2 * sum(self.chns))

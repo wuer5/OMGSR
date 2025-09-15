@@ -236,7 +236,7 @@ def main():
         
        # dinov3 DISTS loss function
     from dino_gan.dinov3_convnext_dists import DINOv3ConvnextDISTS
-    dists_fn = DINOv3ConvnextDISTS(dino_convnext_size=args.dino_convnext_size)
+    dists_fn = DINOv3ConvnextDISTS(dinov3_convnext_size=args.dinov3_convnext_size)
 
     # dinov3 gan discrminator
     from dino_gan.dinov3_vit_discrminator import Dinov3ViTDiscriminator
