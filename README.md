@@ -167,4 +167,4 @@ The `dino_gan` folder refer to <a href="https://github.com/nupurkmr9/vision-aide
 
 If you have any questions, please contact 51265902095@stu.ecnu.edu.cn.
 
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=wuer5/OMGSR)
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=wuer5/OMGSR/tree/turbo)
