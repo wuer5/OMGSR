@@ -21,7 +21,8 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 ## :boom: News
-- **2025.8.25**: :hugs: **We are replacing the VGG-based loss with the DINOv3-based loss. We are testing for excellent results.**.
+- **2025.9.15**: :boom: **Release the most powerful version (turbo version): `DINOv3-Convnext DISTS loss` and `DINOv3-Vit Discriminator`. Both support 1k-resolution GAN training. Please switch to the `turbo` branch (Recommend!!!).**
+- **2025.8.25**: :hugs: We are replacing the VGG-based loss with the DINOv3-based loss. We are testing for excellent results.
 - **2025.8.21**: :hugs: The pre-computed scripts of optimal mid-timestep are released.
 - **2025.8.19**: :hugs: Integrate the DINOv3 GAN loss (support 512, 1k, or higher resolution for training).
 - **2025.8.16**: :hugs: The training code is released.
@@ -30,7 +31,7 @@ Xian Wei<sup>1&dagger;</sup>
 - **2025.8.6**: This repo is released.
 
 ## :raised_hand_with_fingers_splayed: Note
-- Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss. **We will release the weights related to OC-EA-DISTS Loss in the future. Please stay tuned!**
+- Unlike the OC-LPIPS loss in the paper, we use **OC-EA-DISTS** loss in this repo, which yields better results. The weights given below are based on OC-LPIPS Loss.
 - OMGSR-F-1024 can also be applied to face restoration, demonstrating excellent real skin texture (due to the training of GAN). Under 1k-resolution training, training only a few thousand steps (dual h20s with 4 gradient accumulation) yields good results.
 - OMGSR-S-512 requires `~21G/24G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True/False`.
 - OMGSR-F-512 requires `~42G` VRAM with `train_batch_size=1` and `gradient_checkpointing=True`.
