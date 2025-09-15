@@ -177,34 +177,6 @@ def set_flux_transformer_lora(flux_transformer, rank):
     flux_transformer.print_trainable_parameters()
     return flux_transformer
 
-# Overlap-Chunked
-def OC(x, cv_type):
-    if cv_type == 'dinov3': return x   # dinov3 supports multi-resolution, like 512, 1024, and higher
-    if cv_type == 'dinov2' and x.size(-1) == 512: return x # 512
-    if cv_type == 'dinov2': # 1k
-        patch_size = 518
-    elif cv_type == 'dino':
-        patch_size = 224
-    if len(x) == 3:
-        x = x.unsqueeze(0)
-    _, C, H, W = x.shape
-    assert H == W
-    if H % patch_size == 0:
-        stride = patch_size
-    else:
-        N = int((H / patch_size)) + 1
-        stride = patch_size - (N * patch_size - H) // (N - 1)
-    patches = F.unfold(
-        x, 
-        kernel_size=patch_size, 
-        stride=stride
-    )  
-    patches = patches.permute(0, 2, 1).reshape(
-        -1, C, patch_size, patch_size
-    )  # (num_patches, C, patch_size, patch_size)
-    
-    return patches
-
 def parse_args():
     parser = argparse.ArgumentParser(description="Simple example of a training script.")
     parser.add_argument(
@@ -309,27 +281,19 @@ def main():
                 "xformers is not available, please install it by running `pip install xformers`"
             )
     
-    from oc_loss.oc_ea_dists_loss import OCEADISTSLoss
-    oc_ea_dists_loss = OCEADISTSLoss(device=accelerator.device)
+    # dinov3 DISTS loss function
+    from dino_gan.dinov3_convnext_dists import DINOv3ConvnextDISTS
+    dists_fn = DINOv3ConvnextDISTS(dino_convnext_size=args.dino_convnext_size)
 
-    # dino gan
-    import va_loss
-    net_disc = va_loss.Discriminator(
-        cv_type=args.cv_type,
-        output_type="conv_multi_level",
-        loss_type="multilevel_sigmoid_s",
-        device=accelerator.device
-    )
-    net_disc.requires_grad_(True)
-    net_disc.cv_ensemble.requires_grad_(False)
-    for name, module in net_disc.named_modules():
-        if "attn" in name:
-            module.fused_attn = False
+    # dinov3 gan discrminator
+    from dino_gan.dinov3_vit_discrminator import Dinov3ViTDiscriminator
+    net_disc = Dinov3ViTDiscriminator(resolution=args.resolution, dinov3_vit_size=args.dinov3_vit_size)
 
     fixed_vae.to(accelerator.device)  # keep vae in fp32
     lora_vae.to(accelerator.device) # keep vae in fp32
     flux_transformer.to(device=accelerator.device)
     net_disc.to(accelerator.device)
+    dists_fn.to(accelerator.device)
 
     if args.gradient_checkpointing:
         flux_transformer.enable_gradient_checkpointing()
@@ -568,23 +532,22 @@ def main():
                     noise = torch.randn_like(hq_latent)
                     pretrained_noisy_latent = (1 - sigma_t) * hq_latent + sigma_t * noise         
                 lq_latent = encode_images(lq_img, unwrap_model(lora_vae), weight_dtype)
+                
                 # LDR Loss: Latent Refinement Loss
                 loss_ldr = (
                     F.mse_loss(pretrained_noisy_latent, lq_latent, reduction="mean") * args.lambda_ldr
                 )
                 pred_img = one_mid_timestep_pred(lq_latent)
-                # MSE Loss
-                loss_mse = (
-                    F.mse_loss(pred_img, hq_img, reduction="mean") * args.lambda_mse
-                )
-                # OC-EA-DISTS Loss
-                loss_ea_dists = oc_ea_dists_loss(pred_img, hq_img).mean() * args.lambda_ea_dists
-                # Gen Loss
+       
+                # DINOv3 DISTS Loss
+                loss_dists = dists_fn(pred_img, hq_img).mean() * args.lambda_dists
+
+                # Generator Loss (SD/FLUX)
                 lossG = (
-                    net_disc(OC(pred_img, args.cv_type), for_G=True).mean() * args.lambda_gan
+                    net_disc(pred_img, for_G=True).mean() * args.lambda_gan
                 )
 
-                total_G_loss = loss_ldr + loss_mse  + loss_ea_dists  + lossG 
+                total_G_loss = loss_ldr + loss_dists + lossG 
 
                 accelerator.backward(total_G_loss)
                 if accelerator.sync_gradients:
@@ -597,11 +560,11 @@ def main():
                 fake_img = pred_img.detach()
                 # Real images
                 lossD_real = (
-                    net_disc(OC(hq_img, args.cv_type), for_real=True).mean() * args.lambda_gan
+                    net_disc(hq_img, for_real=True).mean() * args.lambda_gan
                 )
                 # Fake images
                 lossD_fake = (
-                    net_disc(OC(fake_img, args.cv_type), for_real=False).mean() * args.lambda_gan
+                    net_disc(fake_img, for_real=False).mean() * args.lambda_gan
                 )
                 total_D_loss = lossD_real + lossD_fake
 
@@ -644,8 +607,7 @@ def main():
                 "loss_ldr": loss_ldr.detach().item(),
                 "lossD_fake": lossD_fake.detach().item(),
                 "lossD_real": lossD_real.detach().item(),
-                "loss_ea_dists": loss_ea_dists.detach().item(),
-                "loss_mse": loss_mse.detach().item(),
+                "loss_dists": loss_dists.detach().item(),
                 "lr": lr_scheduler_sr.get_last_lr()[0],
             }
             progress_bar.set_postfix(**logs)

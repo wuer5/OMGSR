@@ -11,9 +11,8 @@ flux_transformer_lora_rank: 64
 cv_type: dinov3   # dino, dinov2, dinov3
 lambda_gan: 0.5
 lambda_mse: 2
-lambda_lpips: 5
 lambda_ldr: 5
-lambda_ea_dists: 5
+lambda_dists: 5
 mid_timestep: 173  # OK!
 
 output_dir: ./trainings/omgsr_f_512
