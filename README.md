@@ -21,7 +21,7 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 ## :boom: News
-- **2025.9.15**: :boom: **Release the most powerful version (turbo version): `DINOv3-Convnext DISTS loss` and `DINOv3-Vit Discriminator`. Both support 1k-resolution GAN training. Please switch to the `turbo` branch.**
+- **2025.9.15**: :boom: **Release the most powerful version (turbo version): `DINOv3-Convnext DISTS loss` and `DINOv3-Vit Discriminator` in the `dino_gan` folder. Both support 1k-resolution GAN training. Please switch to the `turbo` branch.**
 - **2025.8.25**: :hugs: We are replacing the VGG-based loss with the DINOv3-based loss. We are testing for excellent results.
 - **2025.8.21**: :hugs: The pre-computed scripts of optimal mid-timestep are released.
 - **2025.8.19**: :hugs: Integrate the DINOv3 GAN loss (support 512, 1k, or higher resolution for training).
