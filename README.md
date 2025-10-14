@@ -40,11 +40,11 @@ Unlike the paper, this repo has been further optimized by:
 These demos are created by OMGSR-F-1024, which has demonstrated excellent representation, especially in terms of details.
 **Click** the images for comparative visualization.
 
-[<img src="assets/1.png" target="_blank" height="200px"/>](https://imgsli.com/NDIyMDQ0)
-[<img src="assets/2.png" target="_blank" height="200px"/>](https://imgsli.com/NDIyMDQz)
-[<img src="assets/3.png" target="_blank" height="200px"/>](https://imgsli.com/NDIyMDQ4)
-[<img src="assets/4.png" target="_blank" height="200px"/>](https://imgsli.com/NDIyMDQ5)
-[<img src="assets/5.png" target="_blank" height="200px"/>](https://imgsli.com/NDIyMDUw)
+[<img src="assets/1.png" target="_blank" height="150px"/>](https://imgsli.com/NDIyMDQ0)
+[<img src="assets/2.png" target="_blank" height="150px"/>](https://imgsli.com/NDIyMDQz)
+[<img src="assets/3.png" target="_blank" height="150px"/>](https://imgsli.com/NDIyMDQ4)
+[<img src="assets/4.png" target="_blank" height="150px"/>](https://imgsli.com/NDIyMDQ5)
+[<img src="assets/5.png" target="_blank" height="150px"/>](https://imgsli.com/NDIyMDUw)
 <!-- https://imgsli.com/NDIyMDQ0
 https://imgsli.com/NDIyMDQz
 https://imgsli.com/NDIyMDQ4
