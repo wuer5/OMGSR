@@ -227,11 +227,11 @@ def main():
                 "xformers is not available, please install it by running `pip install xformers`"
             )
         
-    # DINOv3-ConvNext DISTS Loss
+    # dinov3 DISTS loss function
     from dinov3_gan.dinov3_convnext_dists import DINOv3ConvNextDISTS
     dists_fn = DINOv3ConvNextDISTS(dinov3_convnext_size=args.dinov3_convnext_size)
 
-    # DINOv3-ConvNext Discrminator
+    # dinov3 gan discrminator
     from dinov3_gan.dinov3_convnext_disc import Dinov3ConvNextDiscriminator
     net_disc = Dinov3ConvNextDiscriminator(dinov3_convnext_size=args.dinov3_convnext_size, resolution=args.resolution)
 
@@ -242,7 +242,6 @@ def main():
     dists_fn.to(accelerator.device)
 
     if args.gradient_checkpointing:
-        lora_vae.enable_gradient_checkpointing()
         unet.enable_gradient_checkpointing()
 
     def unwrap_model(model):
@@ -441,19 +440,19 @@ def main():
                 lq_latent = encode_images(lq_img, unwrap_model(lora_vae))
 
                 # LRR Loss: Latent Representation Refinement Loss
-                loss_LRR = F.mse_loss(pretrained_noisy_latent, lq_latent, reduction="mean") * args.lambda_ldr
+                loss_LRR = F.mse_loss(pretrained_noisy_latent, lq_latent, reduction="mean") * args.lambda_LRR
                 
                 # Onestep prediction at mid-timestep
                 pred_img = one_mid_timestep_pred(lq_latent)
 
                 # DINOv3-ConvNext DISTS Loss
-                loss_Dv3D = dists_fn(pred_img, hq_img).mean() * args.lambda_dists
+                loss_Dv3D = dists_fn(pred_img, hq_img).mean() * args.lambda_Dv3D
 
                 # L1 Loss
-                loss_L1 = F.l1_loss(pred_img, hq_img, reduction="mean") * 0.5
+                loss_L1 = F.l1_loss(pred_img, hq_img, reduction="mean") * args.lambda_L1
 
                 # Generator Loss (SD/FLUX)
-                loss_G = net_disc(pred_img, for_G=True).mean() * args.lambda_gan
+                loss_G = net_disc(pred_img, for_G=True).mean() * args.lambda_GAN
                 
                 total_G_loss = loss_LRR + loss_Dv3D + loss_G + loss_L1
 
@@ -467,9 +466,9 @@ def main():
                 
                 fake_img = pred_img.detach()
                 # Fake images
-                loss_D_fake = net_disc(fake_img, for_real=False).mean() * args.lambda_gan 
+                loss_D_fake = net_disc(fake_img, for_real=False).mean() * args.lambda_GAN 
                 # Real images
-                loss_D_real = net_disc(hq_img, for_real=True).mean() * args.lambda_gan 
+                loss_D_real = net_disc(hq_img, for_real=True).mean() * args.lambda_GAN 
           
                 total_D_loss = loss_D_real + loss_D_fake 
 
@@ -499,7 +498,8 @@ def main():
                     accelerator.is_main_process
                     or accelerator.distributed_type == DistributedType.DEEPSPEED
                 ):
-                    if global_step % args.checkpointing_steps == 0:
+                    # if global_step % args.checkpointing_steps == 0:
+                    if global_step in list(range(4000, 6001, 100)):
 
                         weight_path = os.path.join(
                             args.output_dir, f"weight-{global_step}"
