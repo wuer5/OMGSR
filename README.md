@@ -20,8 +20,14 @@ Xian Wei<sup>1&dagger;</sup>
 <sup>&dagger;</sup>Corresponding author
 </div>
 
+## :boom: HighLight
+- Replace *LPIPS Loss (natively support 224 resolution)* with the proposed ***DINOv3-ConNext DISTS Loss (natively support 1k or higher resolution)*** for structural perception.
+
+- Develop ***DINOv3-ConNext Multi-level Discriminator Head (natively support 1k or higher resolution)*** for GAN training.
+
+
 ## :boom: News
-- **2025.10.14**: :hugs: The latest version is released.
+- **2025.10.14**: :hugs: **The latest version is released.**
 - **2025.8.16**: The training code is released.
 - **2025.8.15**: The inference code and weights are released.
 - **2025.8.12**: The arXiv paper is released.
@@ -29,7 +35,7 @@ Xian Wei<sup>1&dagger;</sup>
 
 
 ## :eyes: Visualization
-
+**TODO**
 
 ## :wrench: Environment
 
@@ -52,8 +58,7 @@ pip install -r requirements.txt
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F-1024.
 <h3>2. Download the OMGSR Lora adapters weights</h3>
 
-- Download <a href="#">OMGSR-S-512</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-s-512-weight```.
-- Download <a href="#">OMGSR-F-1024</a> LoRA-adapter to the folder ```adapters```, and rename it as ```omgsr-f-1024-weight```.
+**TODO**
 
 <h3>3. Prepare your testing data</h3>
 
@@ -115,7 +120,7 @@ If OMGSR is helpful to you, you could cite this paper.
 }
 ```
 ## :thumbsup: Acknowledgement
-The `va_loss` folder in this project is modified from <a href="https://github.com/nupurkmr9/vision-aided-gan">Vision-aided GAN</a> and <a href="https://github.com/facebookresearch/dinov2">DINOv2</a>. Thanks for these awesome work.
+The `dinov3_gan` folder in this project is modified from <a href="https://github.com/nupurkmr9/vision-aided-gan">Vision-aided GAN</a> and <a href="https://github.com/facebookresearch/dinov3">DINOv3</a>. Thanks for these awesome work.
 
 ## :email: Contact
 
