@@ -149,7 +149,7 @@ def get_pad_layer(pad_type):
 #     ),
 # }
 cur_path = "dinov3_gan"
-class DINOv3ConvNext(torch.nn.Module):
+class DINOv3ConvNeXt(torch.nn.Module):
     def __init__(self, dinov3_convnext_size):
         super().__init__()
         dinov3_convnext_weights = {
@@ -190,7 +190,7 @@ class DINOv3ConvNext(torch.nn.Module):
         feats = self._get_intermediate_layers(x)
         return feats
 
-class MultiLevelConvNextDiscHead(nn.Module):
+class MultiLevelConvNeXtDiscHead(nn.Module):
     def __init__(self, channels=[192, 384, 768], resolution=512):
         super().__init__()
         self.level = len(channels)
@@ -258,16 +258,16 @@ class MultiLevelBCELoss(torch.nn.Module):
             loss += loss_
         return loss
 
-class Dinov3ConvNextDiscriminator(nn.Module):
+class Dinov3ConvNeXtDiscriminator(nn.Module):
     def __init__(self, dinov3_convnext_size, resolution, diffaug=True):
         super().__init__() 
-        self.dinov3_convnext = DINOv3ConvNext(dinov3_convnext_size=dinov3_convnext_size)
+        self.dinov3_convnext = DINOv3ConvNeXt(dinov3_convnext_size=dinov3_convnext_size)
         self.dinov3_convnext.requires_grad_(False)
 
         # we just use the first three layers
-        self.decoders = MultiLevelConvNextDiscHead(self.dinov3_convnext.chs[:3], resolution)
+        self.decoders = MultiLevelConvNeXtDiscHead(self.dinov3_convnext.chns[:3], resolution)
         self.decoders.requires_grad_(True)
-        self.lossfn = MultiLevelBCELoss(0.8)
+        self.lossfn = MultiLevelBCELoss(1.0)
         if diffaug:
             self.policy = 'color,translation,cutout'
 
@@ -278,13 +278,3 @@ class Dinov3ConvNextDiscriminator(nn.Module):
         loss = self.lossfn(logits, for_real=for_real, for_G=for_G)
         return loss
     
-
-# x = torch.randn(1, 3, 1024, 1024).to("cuda")
-# d = DINOv3Convnext().to("cuda")
-# z = d(x)
-# for i in z:
-#     print(i.shape)
-# a1 = MultiLevelConvnextDiscHead1(resolution=512)
-# a2 = MultiLevelConvnextDiscHead(resolution=512)
-# print(a1)
-# print(a2)

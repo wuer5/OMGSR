@@ -30,7 +30,7 @@ class L2pooling(nn.Module):
 
 cur_path = "dinov3_gan"
 class L2PooledDINOv3ConvNext(torch.nn.Module):
-    def __init__(self, dinov3_convnext_size="large"):
+    def __init__(self, dinov3_convnext_size):
         super().__init__()
         dinov3_convnext_weights = {
             'tiny': 'dinov3_convnext_tiny_pretrain_lvd1689m-21b726bb.pth',
@@ -75,11 +75,10 @@ class L2PooledDINOv3ConvNext(torch.nn.Module):
         pooled_feats = self._get_l2pooled_intermediate_layers(h)
         return [x] + pooled_feats 
 
-        
-class DINOv3ConvNextDISTS(torch.nn.Module):
+class DINOv3ConvNeXtDISTS(torch.nn.Module):
     def __init__(self, dinov3_convnext_size):
         super().__init__()
-        self.l2pooled_dinov3_convnext = L2PooledDINOv3ConvNext()
+        self.l2pooled_dinov3_convnext = L2PooledDINOv3ConvNext(dinov3_convnext_size)
         self.l2pooled_dinov3_convnext.requires_grad_(False)
         
         self.channels = [3] + self.l2pooled_dinov3_convnext.chns[:3]
