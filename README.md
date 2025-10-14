@@ -61,7 +61,7 @@ $$
 
 #### 4. Compute Averge Optimal Mid-timestep
 
-$$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right|, \quad \text{Dataset:} \{(\mathbf{z}_L^{(i)}, \mathbf{z}_H^{(i)})\}_N$$
+$$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right|, \quad \text{Dataset:} \\{(\mathbf{z}_L^{(i)}, \mathbf{z}_H^{(i)})\\}_N$$
 
 
 #### 5. Mid-timestep Script
