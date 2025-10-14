@@ -1,5 +1,5 @@
 <div align="center">
-<img src="assets/logo.png" style="height: 80px;border-radius: 8%;" />
+<img src="assets/logo.png" style="height: 80px" />
 <h2>OMGSR: You Only Need One Mid-timestep Guidance for Real-World Image Super-Resolution</h2>
 <a href='https://arxiv.org/pdf/2508.08227'><img src='https://img.shields.io/badge/Paper-Arxiv-red'></a>
 
