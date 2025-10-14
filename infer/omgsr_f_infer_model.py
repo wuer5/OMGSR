@@ -330,7 +330,7 @@ class OMGSR_F_Infer(torch.nn.Module):
             print(f"[Tiled Latent]: the input size is {lq_img.shape[-2]}x{lq_img.shape[-1]}, need to tiled")
             pred_img = self._forward_tile(lq_latent, prompt_embeds, pooled_prompt_embeds, text_ids, latent_image_ids, tile_size, tile_overlap)
         torch.cuda.synchronize()
-        time = time.time() - start_time
+        t = time.time() - start_time
         print(f"Inference time per image: {time}")
-        return pred_img, time
+        return pred_img, t
     
