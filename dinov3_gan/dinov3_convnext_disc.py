@@ -267,7 +267,7 @@ class Dinov3ConvNeXtDiscriminator(nn.Module):
         # we just use the first three layers
         self.decoders = MultiLevelConvNeXtDiscHead(self.dinov3_convnext.chns[:3], resolution)
         self.decoders.requires_grad_(True)
-        self.lossfn = MultiLevelBCELoss(1.0)
+        self.lossfn = MultiLevelBCELoss(0.8)
         if diffaug:
             self.policy = 'color,translation,cutout'
 
