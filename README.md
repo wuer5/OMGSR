@@ -40,7 +40,7 @@ Unlike the paper, this repo has been further optimized by:
 **TODO**
 
 ## Averge Optimal Mid-timestep via Signal-to-Noise Ratio (SNR)
-#### Pre-trained Noisy Latent Representation
+#### 1. Pre-trained Noisy Latent Representation
 $$
 \text{DDPM}: \mathbf{z}_t
 = \sqrt{\bar{\alpha}_t} \mathbf{z}_0 + \sqrt{1-\bar{\alpha}_t} \epsilon.
@@ -48,23 +48,23 @@ $$
 \text{FM}: \mathbf{z}_t
 = (1 - \sigma_t) \mathbf{z}_0 + \sigma_t \epsilon.
 $$
-#### SNR of Pre-trained Noisy Latent Representation
+#### 2. SNR of Pre-trained Noisy Latent Representation
 $$   
 \text{DDPM}: \texttt{SNR}(\mathbf{z}_t)=\frac{\bar{\alpha}_t  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{(1 - \bar{\alpha}_t)  \cdot\mathbb{E}[\epsilon^2]}=\frac{\bar{\alpha}_t \cdot \mathbb{E}[\mathbf{z}_H^2]}{1 - \bar{\alpha}_t}.
 \quad
 \text{FM}: \texttt{SNR}(\mathbf{z}_t)=\frac{(1 - \sigma_t)^2  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{\sigma_t^2 \cdot \mathbb{E}[\epsilon^2]}=\frac{(1 - \sigma_t)^2 \cdot \mathbb{E}[\mathbf{z}_H^2]}{\sigma_t^2}.
 $$
-#### SNR of Low-Quality (LQ) Image Latent Representation
+#### 3. SNR of Low-Quality (LQ) Image Latent Representation
 $$
 \texttt{SNR}(\mathbf{z}_L) = \frac{\mathbb{E}[\mathbf{z}_H^2]}{\mathbb{E}[(\mathbf{z}_L - \mathbf{z}_H)^2]}
 $$
 
-#### Compute Averge Optimal Mid-timestep
+#### 4. Compute Averge Optimal Mid-timestep
 
 $$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right|, \quad \text{Dataset:} \{(\mathbf{z}_L^{(i)}, \mathbf{z}_H^{(i)})\}_N$$
 
 
-### Mid-timestep Script
+#### 5. Mid-timestep Script
 You can run the script:
 
 ```
@@ -96,19 +96,23 @@ pip install -r requirements.txt
 
 ## :rocket: Quick Inference
 
-<h3>1. Download the pre-trained models from huggingface</h3>
+### 1. Download the pre-trained models from huggingface
 
-- Download <a href="https://huggingface.co/stabilityai/stable-diffusion-2-1">SD2.1-Base</a> for OMGSR-S-512.
+- Download <a href="https://huggingface.co/stabilityai/stable-diffusion-2-1">SD2.1-base</a> for OMGSR-S-512.
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F-1024.
-<h3>2. Download the OMGSR Lora adapters weights</h3>
 
-**TODO**
+### 2. Download the OMGSR Lora adapter weights
 
-<h3>3. Prepare your testing data</h3>
+- Download the <a href="#">OMGSR-S-512 Lora Adapter Weight</a> (rename it as `omgsr-s-512-adapter`) to the folder `adapters` (please make the folder). *[TODO]*
+
+- Download the <a href="https://drive.google.com/drive/folders/11pPiyQ7YUpDmc5uyZ0x7uBB07bGBAbov?usp=sharing">OMGSR-F-1024 Lora Adapter Weight</a> (rename it as `omgsr-f-1024-adapter`) to the folder `adapters` (please make the folder).
+
+
+### 3. Prepare your testing data
 
 You should put the testing data (```.png```, ```.jpg```, ```.jpeg``` formats) to the folder ```tests```.
 
-<h3>4. Start to inference</h3>
+### 4. Start to inference
 
 For OMGSR-S-512:
 ```bash
@@ -121,7 +125,7 @@ bash infer_omgsr_f.sh
 
 ## :hugs: Training 
 
-<h3>1. Prepare your training datasets</h3>
+### 1. Prepare your training datasets
 
 You should download the training datasets ```LSDIR``` and ```FFHQ``` (first 10k images) followed by our paper settings or your custom datasets.
 
@@ -132,6 +136,11 @@ dataset_txt_or_dir_paths: [path1, path2, ...]
 ```
 Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
 
+### 2. Download the DINOv3-ConvNext
+
+You can download the <a href="https://drive.google.com/file/d/1-kSZ2BfBJfO4DvEftju__XGT6Rsj596m/view?usp=sharing">DINOv3-ConvNext-Large</a> to the folder `dinov3_gan/dinov3_weights` (please make the folder).
+
+### 3. Prepare your training datasets
 
 Start to train OMGSR-S-512:
 ```
@@ -142,7 +151,6 @@ Start to train OMGSR-F-1024:
 ```
 bash train_omgsr_f_1024.sh
 ```
-
 
 ## :book: Citation
 
