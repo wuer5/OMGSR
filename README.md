@@ -43,10 +43,10 @@ Unlike the paper, this repo has been further optimized by:
 #### 1. Pre-trained Noisy Latent Representation
 $$
 \text{DDPM}: \mathbf{z}_t
-= \sqrt{\bar{\alpha}_t} \mathbf{z}_0 + \sqrt{1-\bar{\alpha}_t} \epsilon.
+= \sqrt{\bar{\alpha}_t} \mathbf{z}_H + \sqrt{1-\bar{\alpha}_t} \epsilon.
 \quad
 \text{FM}: \mathbf{z}_t
-= (1 - \sigma_t) \mathbf{z}_0 + \sigma_t \epsilon.
+= (1 - \sigma_t) \mathbf{z}_H + \sigma_t \epsilon.
 $$
 #### 2. SNR of Pre-trained Noisy Latent Representation
 $$   
