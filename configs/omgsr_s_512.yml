@@ -39,6 +39,6 @@ adam_epsilon: 1e-08
 max_grad_norm: 1.0
 logging_dir: logs
 allow_tf32: False
-mixed_precision: fp16
+mixed_precision: bf16
 
 
