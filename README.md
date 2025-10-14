@@ -61,7 +61,7 @@ $
 #### Compute Averge Optimal Mid-timestep
 
 $
-t^\ast = \arg \min_t \frac{1}{N}\sum_i^N |\texttt{SNR}(\mathbf{z}_t^{(i)}) -\texttt{SNR}(\mathbf{z}_L^{(i)})|
+t^\ast = \arg \min_t \frac{1}{N}\sum_i^N |\text{SNR}(\mathbf{z}_t^{(i)}) -\text{SNR}(\mathbf{z}_L^{(i)})|
 $
 
 ### Mid-timestep Script
