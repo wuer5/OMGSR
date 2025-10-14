@@ -71,6 +71,7 @@ def main():
             signal_power2 = torch.mean(hq_latent ** 2)
             noise_power2 = torch.mean((lq_latent - hq_latent) ** 2)
             SNR2 = signal_power2 / noise_power2
+
             loss = torch.abs(SNR1 - SNR2)
 
             loss_accumulators[t] += loss.item() * batch_size
@@ -141,8 +142,8 @@ def main():
 def parse_args():
     parser = argparse.ArgumentParser(description="Find optimal timestep for diffusion model")
     
-    parser.add_argument("--dataset_txt_or_dir_paths", type=list, nargs='+', default=["/data/vjuicefs_ai_camera_aigc/public_data/11183307/omgsr-github-new/OMGSR-2/OMGSR/configs/LSDIR_paths.txt", "/data/vjuicefs_ai_camera_aigc/public_data/11183307/OMGSR-sd2.1-base/dataloaders/FFHQ10000_paths.txt"], help="List of dataset paths or txt files containing paths")
-    parser.add_argument("--sd_path", default="/data/vjuicefs_ai_camera_aigc/public_data/aigc_models/models--stabilityai--stable-diffusion-2-1-base",
+    parser.add_argument("--dataset_txt_or_dir_paths", type=list, nargs='+', help="List of dataset paths or txt files containing paths")
+    parser.add_argument("--sd_path", default="stabilityai/stable-diffusion-2-1",
                        help="Path to sd model")
     parser.add_argument("--resolution", type=int, default=512, 
                        help="Image resolution")

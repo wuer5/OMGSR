@@ -168,10 +168,10 @@ def main():
 def parse_args():
     parser = argparse.ArgumentParser(description="Find optimal timestep for diffusion model")
     
-    parser.add_argument("--dataset_txt_or_dir_paths", type=list, nargs='+', default=["/data/vjuicefs_ai_camera_aigc/public_data/11183307/omgsr-github-new/OMGSR-2/OMGSR/configs/LSDIR_paths.txt"], help="List of dataset paths or txt files containing paths")
-    parser.add_argument("--flux_path", default="/data/vjuicefs_ai_camera_aigc/public_data/aigc_models/models--black-forest-labs--FLUX.1-dev",
+    parser.add_argument("--dataset_txt_or_dir_paths", type=list, nargs='+', help="List of dataset paths or txt files containing paths")
+    parser.add_argument("--flux_path", default="black-forest-labs/FLUX.1-dev",
                        help="Path to FLUX model")
-    parser.add_argument("--resolution", type=int, default=1024,    # 512 or 1024
+    parser.add_argument("--resolution", type=int, default=1024,
                        help="Image resolution")
     parser.add_argument("--device", default="cuda",
                        help="Device to use (cuda/cpu)")
