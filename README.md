@@ -61,7 +61,7 @@ $$
 
 #### Compute Averge Optimal Mid-timestep
 
-$$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right| $$
+$$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right|, \quad \text{Dataset:} \{(\mathbf{z}_L^{(i)}, \mathbf{z}_H^{(i)})\}_N$$
 
 
 ### Mid-timestep Script
@@ -73,7 +73,7 @@ python mid_timestep\mid_timestep_sd.py --dataset_txt_or_dir_paths /path1/to/imag
 ```
 ```
 # OMGSR-F-1024
-python mid_timestep\mid_timestep_sd.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
+python mid_timestep\mid_timestep_flux.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
 ```
 - In this repo, we using mid-timestep `273` for `OMGSR-S-512` and `244` for `OMGSR-F-1024`.
 - In fact, a mid-timestep around the recommended value is also ok and does not need to be very accurate. 
