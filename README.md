@@ -20,15 +20,16 @@ Xian Wei<sup>1&dagger;</sup>
 <sup>&dagger;</sup>Corresponding author
 </div>
 
-## :boom: HighLight
+## :boom: HighLight 
 Unlike the paper, this repo has been further optimized by: 
 
 - Replace ~~*LPIPS Loss (natively support 224 resolution)*~~ with the proposed ***DINOv3-ConNext DISTS Loss (natively support 1k or higher resolution)*** for structural perception.
 
 - Develop ***DINOv3-ConNext Multi-level Discriminator Head (natively support 1k or higher resolution)*** for GAN training.
 
-
 ## :boom: News
+If you find OMGSR helpful, we hope for a :star:.
+
 - **2025.10.14**: :hugs: **The latest version is released.**
 - **2025.8.16**: The training code is released.
 - **2025.8.15**: The inference code and weights are released.
