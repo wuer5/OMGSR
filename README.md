@@ -38,10 +38,11 @@ If you find OMGSR helpful, we hope for a :star:.
 
 
 ## :eyes: Visualization
-These demos are created by OMGSR-F-1024, which has demonstrated excellent representation, especially in terms of details.
+
 **Click** the images for comparative visualization.
-<div align="center">
-<h4>RealLQ250x4 (250->1k Resolotion) <a href="#">Complete Results</a> </h4></div>
+
+<div align="center"><h3>OMGSR-F-1024 Results</h3></div>
+<div align="center"><h4>RealLQ250x4 (250->1k Resolotion) <a href="#">Complete Results</a> </h4></div>
 
 [<img src="assets/1.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQ0)
 [<img src="assets/2.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQz)
