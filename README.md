@@ -39,6 +39,48 @@ Unlike the paper, this repo has been further optimized by:
 ## :eyes: Visualization
 **TODO**
 
+## Averge Optimal Mid-timestep via Signal-to-Noise Ratio (SNR)
+#### Pre-trained Noisy Latent Representation
+$\text{DDPM}: \mathbf{z}_t
+= \sqrt{\bar{\alpha}_t} \mathbf{z}_0 + \sqrt{1-\bar{\alpha}_t} \epsilon.
+\quad
+\text{FM}: \mathbf{z}_t
+= (1 - \sigma_t) \mathbf{z}_0 + \sigma_t \epsilon.
+$
+#### SNR of Pre-trained Noisy Latent Representation
+$   
+\text{DDPM}: \texttt{SNR}(\mathbf{z}_t)=\frac{\bar{\alpha}_t  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{(1 - \bar{\alpha}_t)  \cdot\mathbb{E}[\epsilon^2]}=\frac{\bar{\alpha}_t \cdot \mathbb{E}[\mathbf{z}_H^2]}{1 - \bar{\alpha}_t}.
+\quad
+\text{FM}: \texttt{SNR}(\mathbf{z}_t)=\frac{(1 - \sigma_t)^2  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{\sigma_t^2 \cdot \mathbb{E}[\epsilon^2]}=\frac{(1 - \sigma_t)^2 \cdot \mathbb{E}[\mathbf{z}_H^2]}{\sigma_t^2}.
+$
+#### SNR of Low-Quality (LQ) Image Latent Representation
+$
+\texttt{SNR}(\mathbf{z}_L) = \frac{\mathbb{E}[\mathbf{z}_H^2]}{\mathbb{E}[(\mathbf{z}_L - \mathbf{z}_H)^2]}
+$
+
+#### Compute Averge Optimal Mid-timestep
+
+$
+t^\ast = \arg \min_t \frac{1}{N}\sum_i^N |\texttt{SNR}(\mathbf{z}_t^{(i)}) -\texttt{SNR}(\mathbf{z}_L^{(i)})|
+$
+
+### Mid-timestep Script
+You can run the script:
+
+```
+# OMGSR-S-512
+python mid_timestep\mid_timestep_sd.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
+```
+```
+# OMGSR-F-1024
+python mid_timestep\mid_timestep_sd.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
+```
+- In this repo, we using mid-timestep `273` for `OMGSR-S-512` and `244` for `OMGSR-F-1024`.
+- In fact, a mid-timestep around the recommended value is also ok and does not need to be very accurate. 
+- Note that the mid-timesteps during training and inference should be consistent
+- The mid-timestep is actually related to degraded configuration in a dataset.
+
+
 ## :wrench: Environment
 
 ```
@@ -91,17 +133,12 @@ dataset_txt_or_dir_paths: [path1, path2, ...]
 Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
 
 
-Start to train OMGSR-S at 512-resolution:
+Start to train OMGSR-S-512:
 ```
 bash train_omgsr_s_512.sh
 ```
 
-Start to train OMGSR-F at 512-resolution:
-```
-bash train_omgsr_f_512.sh
-```
-
-Start to train OMGSR-F at 1k-resolution:
+Start to train OMGSR-F-1024:
 ```
 bash train_omgsr_f_1024.sh
 ```
