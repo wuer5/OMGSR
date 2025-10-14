@@ -69,11 +69,11 @@ You can run the script:
 
 ```
 # OMGSR-S-512
-python mid_timestep\mid_timestep_sd.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
+python mid_timestep/mid_timestep_sd.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
 ```
 ```
 # OMGSR-F-1024
-python mid_timestep\mid_timestep_flux.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
+python mid_timestep/mid_timestep_flux.py --dataset_txt_or_dir_paths /path1/to/images /path2/to/images
 ```
 - In this repo, we using mid-timestep `273` for `OMGSR-S-512` and `244` for `OMGSR-F-1024`.
 - In fact, a mid-timestep around the recommended value is also ok and does not need to be very accurate. 
