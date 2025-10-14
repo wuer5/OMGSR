@@ -21,6 +21,8 @@ Xian Wei<sup>1&dagger;</sup>
 </div>
 
 ## :boom: HighLight
+Unlike the paper, this repo has been further optimized by: 
+
 - Replace *LPIPS Loss (natively support 224 resolution)* with the proposed ***DINOv3-ConNext DISTS Loss (natively support 1k or higher resolution)*** for structural perception.
 
 - Develop ***DINOv3-ConNext Multi-level Discriminator Head (natively support 1k or higher resolution)*** for GAN training.
