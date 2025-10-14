@@ -41,28 +41,28 @@ Unlike the paper, this repo has been further optimized by:
 
 ## Averge Optimal Mid-timestep via Signal-to-Noise Ratio (SNR)
 #### Pre-trained Noisy Latent Representation
-$\text{DDPM}: \mathbf{z}_t
+$$
+\text{DDPM}: \mathbf{z}_t
 = \sqrt{\bar{\alpha}_t} \mathbf{z}_0 + \sqrt{1-\bar{\alpha}_t} \epsilon.
 \quad
 \text{FM}: \mathbf{z}_t
 = (1 - \sigma_t) \mathbf{z}_0 + \sigma_t \epsilon.
-$
+$$
 #### SNR of Pre-trained Noisy Latent Representation
-$   
+$$   
 \text{DDPM}: \texttt{SNR}(\mathbf{z}_t)=\frac{\bar{\alpha}_t  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{(1 - \bar{\alpha}_t)  \cdot\mathbb{E}[\epsilon^2]}=\frac{\bar{\alpha}_t \cdot \mathbb{E}[\mathbf{z}_H^2]}{1 - \bar{\alpha}_t}.
 \quad
 \text{FM}: \texttt{SNR}(\mathbf{z}_t)=\frac{(1 - \sigma_t)^2  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{\sigma_t^2 \cdot \mathbb{E}[\epsilon^2]}=\frac{(1 - \sigma_t)^2 \cdot \mathbb{E}[\mathbf{z}_H^2]}{\sigma_t^2}.
-$
+$$
 #### SNR of Low-Quality (LQ) Image Latent Representation
-$
+$$
 \texttt{SNR}(\mathbf{z}_L) = \frac{\mathbb{E}[\mathbf{z}_H^2]}{\mathbb{E}[(\mathbf{z}_L - \mathbf{z}_H)^2]}
-$
+$$
 
 #### Compute Averge Optimal Mid-timestep
 
-$
-t^\ast = \arg \min_t \frac{1}{N}\sum_i^N |\text{SNR}(\mathbf{z}_t^{(i)}) -\text{SNR}(\mathbf{z}_L^{(i)})|
-$
+$$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right| $$
+
 
 ### Mid-timestep Script
 You can run the script:
