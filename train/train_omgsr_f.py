@@ -281,11 +281,11 @@ def main():
                 "xformers is not available, please install it by running `pip install xformers`"
             )
     
-    # DINOv3-ConvNext DISTS Loss
+    # DINOv3-ConvNeXt DISTS Loss
     from dinov3_gan.dinov3_convnext_dists import DINOv3ConvNeXtDISTS
     dists_fn = DINOv3ConvNeXtDISTS(dinov3_convnext_size=args.dinov3_convnext_size)
 
-    # DINOv3-ConvNext Discrminator
+    # DINOv3-ConvNeXt Discrminator
     from dinov3_gan.dinov3_convnext_disc import Dinov3ConvNeXtDiscriminator
     net_disc = Dinov3ConvNeXtDiscriminator(dinov3_convnext_size=args.dinov3_convnext_size, resolution=args.resolution)
 
