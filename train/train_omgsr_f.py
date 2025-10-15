@@ -283,7 +283,7 @@ def main():
     
     # DINOv3-ConvNeXt DISTS Loss
     from dinov3_gan.dinov3_convnext_dists import DINOv3ConvNeXtDISTS
-    dists_fn = DINOv3ConvNeXtDISTS(dinov3_convnext_size=args.dinov3_convnext_size)
+    net_dv3d = DINOv3ConvNeXtDISTS(dinov3_convnext_size=args.dinov3_convnext_size)
 
     # DINOv3-ConvNeXt Discrminator
     from dinov3_gan.dinov3_convnext_disc import Dinov3ConvNeXtDiscriminator
@@ -293,7 +293,7 @@ def main():
     lora_vae.to(accelerator.device) 
     flux_transformer.to(device=accelerator.device)
     net_disc.to(accelerator.device)
-    dists_fn.to(accelerator.device)
+    net_dv3d.to(accelerator.device)
 
     if args.gradient_checkpointing:
         lora_vae.enable_gradient_checkpointing()
@@ -388,6 +388,7 @@ def main():
         lora_vae,
         flux_transformer,
         net_disc,
+        net_dv3d,
         optimizer_sr,
         optimizer_disc,
         train_dataloader,
@@ -397,6 +398,7 @@ def main():
         lora_vae,
         flux_transformer,
         net_disc,
+        net_dv3d,
         optimizer_sr,
         optimizer_disc,
         train_dataloader,
@@ -541,7 +543,7 @@ def main():
                 pred_img = one_mid_timestep_pred(lq_latent)
 
                 # DINOv3-ConvNext DISTS Loss
-                loss_Dv3D = dists_fn(pred_img, hq_img).mean() * args.lambda_Dv3D
+                loss_Dv3D = net_dv3d(pred_img, hq_img).mean() * args.lambda_Dv3D
 
                 # L1 Loss
                 loss_L1 = F.l1_loss(pred_img, hq_img, reduction="mean") * args.lambda_L1
