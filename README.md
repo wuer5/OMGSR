@@ -43,7 +43,7 @@ If you find OMGSR helpful, we hope for a :star:.
 **Please Click the images for detailed visualization.**
 
 ### *OMGSR-F-1024 Results (Recommend)*
-#### *1. RealLQ250x4 (256->1k Resolution) <a href="https://drive.google.com/drive/folders/1QmX5vL5wEYt2R2vBRJLDSKL9z0-KgPkN?usp=sharing">Complete Results</a>*
+#### *1. RealLQ250x4 (256->1k Resolution) <a href="https://drive.google.com/drive/folders/1QmX5vL5wEYt2R2vBRJLDSKL9z0-KgPkN?usp=sharing" target="_blank">Complete Results</a>*
 
 [<img src="assets/1.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQ0)
 [<img src="assets/2.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQz)
@@ -56,7 +56,7 @@ https://imgsli.com/NDIyMDQ4
 https://imgsli.com/NDIyMDQ5
 https://imgsli.com/NDIyMDUw -->
 
-#### *2. RealSRx8 (128->1k Resolution) <a href="https://drive.google.com/drive/folders/103owVC8lABKsSTk2LxMybdcA5d39f8Lh?usp=sharing">Complete Results</a>*
+#### *2. RealSRx8 (128->1k Resolution) <a href="https://drive.google.com/drive/folders/103owVC8lABKsSTk2LxMybdcA5d39f8Lh?usp=sharing" target="_blank">Complete Results</a>*
 
 [<img src="assets/6.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDUy)
 [<img src="assets/7.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDUz)
@@ -69,7 +69,7 @@ https://imgsli.com/NDIyMDUx
 https://imgsli.com/NDIyMDU0
 https://imgsli.com/NDIyMDU1 -->
 
-#### *3. DrealSRx8 (128->1k Resolution) <a href="https://drive.google.com/drive/folders/1CD5SUHUeanKFg1F21yrLi9hcRFtG0GcW?usp=sharing">Complete Results</a>*
+#### *3. DrealSRx8 (128->1k Resolution) <a href="https://drive.google.com/drive/folders/1CD5SUHUeanKFg1F21yrLi9hcRFtG0GcW?usp=sharing" target="_blank">Complete Results</a>*
 
 
 [<img src="assets/11.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDU3)
@@ -142,14 +142,14 @@ pip install -r requirements.txt
 
 ### 1. Download the pre-trained models from huggingface
 
-- Download <a href="https://huggingface.co/stabilityai/stable-diffusion-2-1">SD2.1-base</a> for OMGSR-S-512.
-- Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1-dev</a> for OMGSR-F-1024.
+- Download <a href="https://huggingface.co/stabilityai/stable-diffusion-2-1" target="_blank">SD2.1-base</a> for OMGSR-S-512.
+- Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev" target="_blank">FLUX.1-dev</a> for OMGSR-F-1024.
 
 ### 2. Download the OMGSR Lora adapter weights
 
 - Download the <a href="#">OMGSR-S-512 Lora Adapter Weight</a> (rename it as `omgsr-s-512-adapter`) to the folder `adapters` (please make the folder). *[TODO]*
 
-- Download the <a href="https://drive.google.com/drive/folders/11pPiyQ7YUpDmc5uyZ0x7uBB07bGBAbov?usp=sharing">OMGSR-F-1024 Lora Adapter Weight</a> (rename it as `omgsr-f-1024-adapter`) to the folder `adapters` (please make the folder).
+- Download the <a href="https://drive.google.com/drive/folders/11pPiyQ7YUpDmc5uyZ0x7uBB07bGBAbov?usp=sharing" target="_blank">OMGSR-F-1024 Lora Adapter Weight</a> (rename it as `omgsr-f-1024-adapter`) to the folder `adapters` (please make the folder).
 
 
 ### 3. Prepare your testing data
@@ -182,7 +182,7 @@ Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the pa
 
 ### 2. Download the DINOv3-ConvNext
 
-You can download the <a href="https://drive.google.com/file/d/1-kSZ2BfBJfO4DvEftju__XGT6Rsj596m/view?usp=sharing">DINOv3-ConvNext-Large</a> to the folder `dinov3_gan/dinov3_weights` (please make the folder).
+You can download the <a href="https://drive.google.com/file/d/1-kSZ2BfBJfO4DvEftju__XGT6Rsj596m/view?usp=sharing" target="_blank">DINOv3-ConvNext-Large</a> to the folder `dinov3_gan/dinov3_weights` (please make the folder).
 
 ### 3. Prepare your training datasets
 
