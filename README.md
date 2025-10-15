@@ -43,7 +43,7 @@ If you find OMGSR helpful, we hope for a :star:.
 **Please Click the images for detailed visualization.**
 
 ### *OMGSR-F-1024 Results (Recommend)*
-- #### *RealLQ250x4 (256->1k Resolution) <a href="#">Complete Results</a>*
+#### *1. RealLQ250x4 (256->1k Resolution) <a href="#">Complete Results</a>*
 
 [<img src="assets/1.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQ0)
 [<img src="assets/2.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQz)
@@ -56,7 +56,7 @@ https://imgsli.com/NDIyMDQ4
 https://imgsli.com/NDIyMDQ5
 https://imgsli.com/NDIyMDUw -->
 
-- #### *RealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
+#### *2. RealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
 
 [<img src="assets/6.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDUy)
 [<img src="assets/7.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDUz)
@@ -69,7 +69,7 @@ https://imgsli.com/NDIyMDUx
 https://imgsli.com/NDIyMDU0
 https://imgsli.com/NDIyMDU1 -->
 
-- #### *DrealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
+#### *3. DrealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
 
 
 [<img src="assets/11.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDU3)
@@ -84,7 +84,7 @@ https://imgsli.com/NDIyMDYw
 https://imgsli.com/NDIyMDYx -->
 
 ## Averge Optimal Mid-timestep via Signal-to-Noise Ratio (SNR)
-- #### Pre-trained Noisy Latent Representation
+#### 1. Pre-trained Noisy Latent Representation
 $$
 \text{DDPM}: \mathbf{z}_t
 = \sqrt{\bar{\alpha}_t} \mathbf{z}_H + \sqrt{1-\bar{\alpha}_t} \epsilon.
@@ -92,23 +92,23 @@ $$
 \text{FM}: \mathbf{z}_t
 = (1 - \sigma_t) \mathbf{z}_H + \sigma_t \epsilon.
 $$
-- #### SNR of Pre-trained Noisy Latent Representation
+#### 2. SNR of Pre-trained Noisy Latent Representation
 $$   
 \text{DDPM}: \texttt{SNR}(\mathbf{z}_t)=\frac{\bar{\alpha}_t  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{(1 - \bar{\alpha}_t)  \cdot\mathbb{E}[\epsilon^2]}=\frac{\bar{\alpha}_t \cdot \mathbb{E}[\mathbf{z}_H^2]}{1 - \bar{\alpha}_t}.
 \quad
 \text{FM}: \texttt{SNR}(\mathbf{z}_t)=\frac{(1 - \sigma_t)^2  \cdot \mathbb{E}[\mathbf{z}_{H}^2]}{\sigma_t^2 \cdot \mathbb{E}[\epsilon^2]}=\frac{(1 - \sigma_t)^2 \cdot \mathbb{E}[\mathbf{z}_H^2]}{\sigma_t^2}.
 $$
-- #### SNR of Low-Quality (LQ) Image Latent Representation
+#### 3. SNR of Low-Quality (LQ) Image Latent Representation
 $$
 \texttt{SNR}(\mathbf{z}_L) = \frac{\mathbb{E}[\mathbf{z}_H^2]}{\mathbb{E}[(\mathbf{z}_L - \mathbf{z}_H)^2]}
 $$
 
-- #### Compute Averge Optimal Mid-timestep
+#### 4. Compute Averge Optimal Mid-timestep
 
 $$ t^\ast = \arg \min_t \frac{1}{N}\sum_{i=1}^N \left|\text{SNR}(\mathbf{z}_t^{(i)}) - \text{SNR}(\mathbf{z}_L^{(i)})\right|, \quad \text{Dataset:} \\{(\mathbf{z}_L^{(i)}, \mathbf{z}_H^{(i)})\\}_N$$
 
 
-- #### Mid-timestep Script
+#### 5. Mid-timestep Script
 You can run the script:
 
 ```
