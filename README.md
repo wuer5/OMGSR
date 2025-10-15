@@ -42,7 +42,7 @@ If you find OMGSR helpful, we hope for a :star:.
 
 **Click** the images for comparative visualization.
 
-<div align="center"><h3>OMGSR-F-1024 Results</h3></div>
+<div align="center"><h3>OMGSR-F-1024 Results</h3><hr></div>
 <div align="center"><h4>RealLQ250x4 (256->1k Resolution) <a href="#">Complete Results</a> </h4></div>
 
 [<img src="assets/1.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQ0)
@@ -124,7 +124,7 @@ python mid_timestep/mid_timestep_flux.py --dataset_txt_or_dir_paths /path1/to/im
 ```
 - In this repo, we using mid-timestep `273` for `OMGSR-S-512` and `244` for `OMGSR-F-1024`.
 - In fact, a mid-timestep around the recommended value is also ok and does not need to be very accurate. 
-- Note that the mid-timesteps during training and inference should be consistent
+- Note that the mid-timesteps during training and inference should be consistent.
 - The mid-timestep is actually related to degraded configuration in a dataset.
 
 
