@@ -498,9 +498,7 @@ def main():
                     accelerator.is_main_process
                     or accelerator.distributed_type == DistributedType.DEEPSPEED
                 ):
-                    # if global_step % args.checkpointing_steps == 0:
-                    if global_step in list(range(4000, 6001, 100)):
-
+                    if global_step % args.checkpointing_steps == 0:
                         weight_path = os.path.join(
                             args.output_dir, f"weight-{global_step}"
                         )
