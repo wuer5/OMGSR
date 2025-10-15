@@ -40,10 +40,10 @@ If you find OMGSR helpful, we hope for a :star:.
 
 ## :eyes: Visualization
 
-**Click** the images for comparative visualization.
+**Please Click the images for detailed visualization.**
 
 ### *OMGSR-F-1024 Results (Recommend)*
-#### *RealLQ250x4 (256->1k Resolution) <a href="#">Complete Results</a>*
+- #### *RealLQ250x4 (256->1k Resolution) <a href="#">Complete Results</a>*
 
 [<img src="assets/1.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQ0)
 [<img src="assets/2.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDQz)
@@ -56,7 +56,7 @@ https://imgsli.com/NDIyMDQ4
 https://imgsli.com/NDIyMDQ5
 https://imgsli.com/NDIyMDUw -->
 
-#### *RealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
+- #### *RealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
 
 [<img src="assets/6.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDUy)
 [<img src="assets/7.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDUz)
@@ -69,7 +69,7 @@ https://imgsli.com/NDIyMDUx
 https://imgsli.com/NDIyMDU0
 https://imgsli.com/NDIyMDU1 -->
 
-#### *DrealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
+- #### *DrealSRx8 (128->1k Resolution) <a href="#">Complete Results</a>*
 
 
 [<img src="assets/11.png" target="_blank" height="160px"/>](https://imgsli.com/NDIyMDU3)
