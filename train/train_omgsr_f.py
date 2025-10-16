@@ -244,7 +244,7 @@ def main():
         text_encoding_pipeline = FluxPipeline.from_pretrained(
             args.flux_path, transformer=None, vae=None, torch_dtype=weight_dtype
         )
-        text_encoding_pipeline = text_encoding_pipeline.to("cuda")
+        text_encoding_pipeline = text_encoding_pipeline.to(accelerate.device)
         with torch.no_grad():
             prompt_embeds, pooled_prompt_embeds, text_ids = text_encoding_pipeline.encode_prompt(
                 args.fixed_prompt, prompt_2=None
