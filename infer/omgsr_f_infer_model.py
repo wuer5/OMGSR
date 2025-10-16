@@ -125,7 +125,8 @@ class OMGSR_F_Infer(torch.nn.Module):
         self.t_curr = flux_timesteps[-(self.mid_timestep + 1)]
         self.t_prev = flux_timesteps[-1]   # 0.0
         print(f"Current One mid-timestep settings: {mid_timestep}")
-
+        vae.eval()
+        flux_transformer.eval()
         self.vae = vae
         self.flux_transformer = flux_transformer
         self.device = device
@@ -285,7 +286,7 @@ class OMGSR_F_Infer(torch.nn.Module):
                     )
                     input_list = []
                 noise_preds.append(model_out)
-                
+
         # Stitch noise predictions for all tiles
         noise_pred = torch.zeros(lq_latent.shape, device=lq_latent.device)
         contributors = torch.zeros(lq_latent.shape, device=lq_latent.device)
@@ -331,6 +332,6 @@ class OMGSR_F_Infer(torch.nn.Module):
             pred_img = self._forward_tile(lq_latent, prompt_embeds, pooled_prompt_embeds, text_ids, latent_image_ids, tile_size, tile_overlap)
         torch.cuda.synchronize()
         t = time.time() - start_time
-        print(f"Inference time per image: {time}")
+        print(f"Inference time per image: {t}s")
         return pred_img, t
     

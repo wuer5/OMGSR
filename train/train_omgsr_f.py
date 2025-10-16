@@ -260,18 +260,26 @@ def main():
     flux_timesteps = get_flux_setting_timesteps()
     sigma_t = flux_timesteps[-(args.mid_timestep + 1)]
     logger.info(f"Current {args.model} mid-timestep = {args.mid_timestep}")
-    # vae
+
+    # fixed vae
     fixed_vae = AutoencoderKL.from_pretrained(args.flux_path, subfolder="vae")
+    fixed_vae.requires_grad_(False)
+    fixed_vae.eval()
+
+    # lora_vae
     lora_vae = copy.deepcopy(fixed_vae)
+    lora_vae.requires_grad_(False)
     del lora_vae.decoder
     free_memory()
-    fixed_vae.requires_grad_(False)
-    lora_vae.requires_grad_(False)
     lora_vae.encoder = set_vae_encoder_lora(lora_vae.encoder, args.vae_lora_rank)
+    lora_vae.train()
+
     # flux_transformer
     flux_transformer = FluxTransformer2DModel.from_pretrained(args.flux_path, subfolder="transformer", torch_dtype=weight_dtype)    
     flux_transformer.requires_grad_(False)
     flux_transformer = set_flux_transformer_lora(flux_transformer, args.flux_transformer_lora_rank)
+    flux_transformer.train()
+
     # xformers
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
@@ -289,11 +297,11 @@ def main():
     from dinov3_gan.dinov3_convnext_disc import Dinov3ConvNeXtDiscriminator
     net_disc = Dinov3ConvNeXtDiscriminator(dinov3_convnext_size=args.dinov3_convnext_size, resolution=args.resolution)
 
-    fixed_vae.to(accelerator.device)  
-    lora_vae.to(accelerator.device) 
+    fixed_vae.to(device=accelerator.device)  
+    lora_vae.to(device=accelerator.device) 
     flux_transformer.to(device=accelerator.device)
-    net_disc.to(accelerator.device)
-    net_dv3d.to(accelerator.device)
+    net_dv3d.to(device=accelerator.device)
+    net_disc.to(device=accelerator.device)
 
     if args.gradient_checkpointing:
         lora_vae.enable_gradient_checkpointing()
@@ -518,19 +526,16 @@ def main():
         return pred_img
     
     for epoch in range(first_epoch, args.num_train_epochs):
-        lora_vae.train()
-        flux_transformer.train()
-        net_disc.train()
         for step, batch in enumerate(train_dataloader):
             with accelerator.accumulate(*[lora_vae, flux_transformer, net_disc]):
                 # Prepare data
                 lq_img, hq_img = batch
                 lq_img = lq_img.to(accelerator.device)
                 hq_img = hq_img.to(accelerator.device)
-                with torch.no_grad():
-                    hq_latent = encode_images(hq_img, fixed_vae, weight_dtype)
-                    noise = torch.randn_like(hq_latent)
-                    pretrained_noisy_latent = (1 - sigma_t) * hq_latent + sigma_t * noise  
+
+                hq_latent = encode_images(hq_img, fixed_vae, weight_dtype)
+                noise = torch.randn_like(hq_latent)
+                pretrained_noisy_latent = (1 - sigma_t) * hq_latent + sigma_t * noise  
 
                 lq_latent = encode_images(lq_img, unwrap_model(lora_vae))
 
@@ -540,16 +545,16 @@ def main():
                 # Onestep prediction at mid-timestep
                 pred_img = one_mid_timestep_pred(lq_latent)
 
-                # DINOv3-ConvNext DISTS Loss
-                loss_Dv3D = net_dv3d(pred_img, hq_img).mean() * args.lambda_Dv3D
+                # DINOv3-ConvNext DISTS/FM Loss 
+                loss_Dv3D = net_dv3d(pred_img, hq_img) * args.lambda_Dv3D
 
                 # L1 Loss
                 loss_L1 = F.l1_loss(pred_img, hq_img, reduction="mean") * args.lambda_L1
 
-                # Generator Loss (SD/FLUX)
-                loss_G = net_disc(pred_img, for_G=True).mean() * args.lambda_GAN
+                # Generator Loss (FLUX)
+                loss_G = net_disc(pred_img, for_G=True) * args.lambda_GAN
                 
-                total_G_loss = loss_LRR + loss_Dv3D + loss_G + loss_L1
+                total_G_loss = loss_LRR + loss_Dv3D + loss_L1 + loss_G
 
                 accelerator.backward(total_G_loss)
                 if accelerator.sync_gradients:
@@ -561,9 +566,9 @@ def main():
                 
                 fake_img = pred_img.detach()
                 # Fake images
-                loss_D_fake = net_disc(fake_img, for_real=False).mean() * args.lambda_GAN 
+                loss_D_fake = net_disc(fake_img, for_real=False) * args.lambda_GAN 
                 # Real images
-                loss_D_real = net_disc(hq_img, for_real=True).mean() * args.lambda_GAN 
+                loss_D_real = net_disc(hq_img, for_real=True) * args.lambda_GAN 
           
                 total_D_loss = loss_D_real + loss_D_fake 
 

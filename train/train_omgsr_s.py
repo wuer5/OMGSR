@@ -172,9 +172,9 @@ def main():
     if not args.fixed_prompt_path:
         logger.info(f"Current prompt: {args.fixed_prompt}")
         tokenizer = AutoTokenizer.from_pretrained(args.sd_path, subfolder="tokenizer")
-        text_encoder = CLIPTextModel.from_pretrained(
-            args.sd_path, subfolder="text_encoder"
-        ).to(accelerator.device)
+        text_encoder = CLIPTextModel.from_pretrained(args.sd_path, subfolder="text_encoder").to(accelerator.device)
+        text_encoder.requires_grad_(False)
+        text_encoder.eval()
 
         def encode_prompt(prompt_batch):
             """Encode text prompts into embeddings."""
@@ -192,7 +192,11 @@ def main():
                     for caption in prompt_batch
                 ]
             return torch.concat(prompt_embeds, dim=0)
+        
         prompt_embeds = encode_prompt([args.fixed_prompt] * args.train_batch_size)
+        del tokenizer
+        del text_encoder
+        free_memory()
     else:
         prompt_embeds = torch.load(args.fixed_prompt_path, map_location=accelerator.device)
 
@@ -206,18 +210,26 @@ def main():
         1 - noise_scheduler.alphas_cumprod[mid_timestep]
     )
     logger.info(f"Current {args.model} mid-timestep = {mid_timestep}")
-    # vae
+
+    # fixed vae
     fixed_vae = AutoencoderKL.from_pretrained(args.sd_path, subfolder="vae")
+    fixed_vae.requires_grad_(False)
+    fixed_vae.eval()
+
+    # lora_vae
     lora_vae = copy.deepcopy(fixed_vae)
+    lora_vae.requires_grad_(False)
     del lora_vae.decoder
     free_memory()
-    fixed_vae.requires_grad_(False)
-    lora_vae.requires_grad_(False)
     lora_vae.encoder = set_vae_encoder_lora(lora_vae.encoder, args.vae_lora_rank)
+    lora_vae.train()
+
     # unet
     unet = UNet2DConditionModel.from_pretrained(args.sd_path, subfolder="unet")
     unet.requires_grad_(False)
     unet = set_unet_lora(unet, args.unet_lora_rank)
+    unet.train()
+
     # xformers
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
@@ -235,13 +247,14 @@ def main():
     from dinov3_gan.dinov3_convnext_disc import Dinov3ConvNeXtDiscriminator
     net_disc = Dinov3ConvNeXtDiscriminator(dinov3_convnext_size=args.dinov3_convnext_size, resolution=args.resolution)
 
-    fixed_vae.to(accelerator.device)  
-    lora_vae.to(accelerator.device) 
+    fixed_vae.to(device=accelerator.device)  
+    lora_vae.to(device=accelerator.device) 
     unet.to(device=accelerator.device)
-    net_disc.to(accelerator.device)
-    net_dv3d.to(accelerator.device)
+    net_dv3d.to(device=accelerator.device)
+    net_disc.to(device=accelerator.device)
 
     if args.gradient_checkpointing:
+        lora_vae.enable_gradient_checkpointing()
         unet.enable_gradient_checkpointing()
 
     def unwrap_model(model):
@@ -423,19 +436,16 @@ def main():
         return pred_img
     
     for epoch in range(first_epoch, args.num_train_epochs):
-        lora_vae.train()
-        unet.train()
-        net_disc.train()
         for step, batch in enumerate(train_dataloader):
             with accelerator.accumulate(*[lora_vae, unet, net_disc]):
                 # Prepare data
                 lq_img, hq_img = batch
                 lq_img = lq_img.to(accelerator.device)
                 hq_img = hq_img.to(accelerator.device)
-                with torch.no_grad():
-                    hq_latent = encode_images(hq_img, fixed_vae)
-                    noise = torch.randn_like(hq_latent)
-                    pretrained_noisy_latent = sqrt_alphas_cumprod_t * hq_latent + sqrt_one_minus_alphas_cumprod_t * noise 
+                
+                hq_latent = encode_images(hq_img, fixed_vae)
+                noise = torch.randn_like(hq_latent)
+                pretrained_noisy_latent = sqrt_alphas_cumprod_t * hq_latent + sqrt_one_minus_alphas_cumprod_t * noise 
 
                 lq_latent = encode_images(lq_img, unwrap_model(lora_vae))
 
@@ -445,16 +455,16 @@ def main():
                 # Onestep prediction at mid-timestep
                 pred_img = one_mid_timestep_pred(lq_latent)
 
-                # DINOv3-ConvNext DISTS Loss
-                loss_Dv3D = net_dv3d(pred_img, hq_img).mean() * args.lambda_Dv3D
+                # DINOv3-ConvNext DISTS Loss 
+                loss_Dv3D = net_dv3d(pred_img, hq_img) * args.lambda_Dv3D
 
                 # L1 Loss
                 loss_L1 = F.l1_loss(pred_img, hq_img, reduction="mean") * args.lambda_L1
 
-                # Generator Loss (SD/FLUX)
-                loss_G = net_disc(pred_img, for_G=True).mean() * args.lambda_GAN
+                # Generator Loss (SD)
+                loss_G = net_disc(pred_img, for_G=True) * args.lambda_GAN
                 
-                total_G_loss = loss_LRR + loss_Dv3D + loss_G + loss_L1
+                total_G_loss = loss_LRR + loss_Dv3D + loss_L1 + loss_G
 
                 accelerator.backward(total_G_loss)
                 if accelerator.sync_gradients:
@@ -466,9 +476,9 @@ def main():
                 
                 fake_img = pred_img.detach()
                 # Fake images
-                loss_D_fake = net_disc(fake_img, for_real=False).mean() * args.lambda_GAN 
+                loss_D_fake = net_disc(fake_img, for_real=False) * args.lambda_GAN 
                 # Real images
-                loss_D_real = net_disc(hq_img, for_real=True).mean() * args.lambda_GAN 
+                loss_D_real = net_disc(hq_img, for_real=True) * args.lambda_GAN 
           
                 total_D_loss = loss_D_real + loss_D_fake 
 

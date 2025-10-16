@@ -1,9 +1,9 @@
 import os
 import torch
-import time
 from diffusers import AutoencoderKL, UNet2DConditionModel, DDPMScheduler
 from peft import PeftModel
 from .vaehook import VAEHook
+import time
 
 class OMGSR_S_Infer(torch.nn.Module):
     def __init__(self, sd_path, lora_path, mid_timestep, device, weight_dtype):
@@ -21,9 +21,11 @@ class OMGSR_S_Infer(torch.nn.Module):
         )
         vae.encoder.merge_and_unload()
         unet.merge_and_unload()
-        vae = vae.to(device=device)
+        vae = vae.to(device=device, dtype=weight_dtype)
         unet = unet.to(device=device, dtype=weight_dtype)
         print(f"Current One mid-timestep settings: {mid_timestep}")
+        vae.eval()
+        unet.eval()
         self.vae = vae
         self.unet = unet
         self.device = device
@@ -154,7 +156,7 @@ class OMGSR_S_Infer(torch.nn.Module):
 
                 noise_pred[:, :, input_start_y:input_end_y, input_start_x:input_end_x] += noise_preds[row*grid_cols + col] * tile_weights
                 contributors[:, :, input_start_y:input_end_y, input_start_x:input_end_x] += tile_weights
-                
+
         # Average overlapping areas with more than 1 contributor
         noise_pred /= contributors
         model_pred = noise_pred
@@ -178,5 +180,5 @@ class OMGSR_S_Infer(torch.nn.Module):
             pred_img = self._forward_tile(lq_latent, prompt_embeds, tile_size, tile_overlap)
         torch.cuda.synchronize()
         t = time.time() - start_time
-        print(f"Inference time per image: {time}")
-        return pred_img, t
+        print(f"Inference time per image: {t}s")
+        return pred_img, t 

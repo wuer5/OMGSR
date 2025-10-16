@@ -165,8 +165,9 @@ class DINOv3ConvNeXt(torch.nn.Module):
             source='local',
             weights=f"{cur_path}/dinov3_weights/dinov3_convnext_large_pretrain_lvd1689m-61fa432d.pth")  
         
+        self.model.requires_grad_(False)
         self.model.eval()
-        self.model.requires_grad = False
+        
         self.register_buffer(
             'mean', torch.tensor([0.485, 0.456, 0.406]).view(1, -1, 1, 1)
         )
@@ -262,11 +263,10 @@ class Dinov3ConvNeXtDiscriminator(nn.Module):
     def __init__(self, dinov3_convnext_size, resolution, diffaug=True):
         super().__init__() 
         self.dinov3_convnext = DINOv3ConvNeXt(dinov3_convnext_size=dinov3_convnext_size)
-        self.dinov3_convnext.requires_grad_(False)
-
         # we just use the first three layers
         self.decoders = MultiLevelConvNeXtDiscHead(self.dinov3_convnext.chns[:3], resolution)
         self.decoders.requires_grad_(True)
+        self.decoders.train()
         self.lossfn = MultiLevelBCELoss(0.8)
         if diffaug:
             self.policy = 'color,translation,cutout'
@@ -276,5 +276,5 @@ class Dinov3ConvNeXtDiscriminator(nn.Module):
         feats = self.dinov3_convnext(x)
         logits = self.decoders(feats)
         loss = self.lossfn(logits, for_real=for_real, for_G=for_G)
-        return loss
+        return loss.mean()
     

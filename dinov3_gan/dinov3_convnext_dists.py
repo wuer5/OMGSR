@@ -45,8 +45,9 @@ class L2PooledDINOv3ConvNext(torch.nn.Module):
             source='local',
             weights=f"{cur_path}/dinov3_weights/dinov3_convnext_large_pretrain_lvd1689m-61fa432d.pth")  
         
+        self.model.requires_grad_(False)
         self.model.eval()
-        self.model.requires_grad = False
+        
         self.register_buffer(
             'mean', torch.tensor([0.485, 0.456, 0.406]).view(1, -1, 1, 1)
         )
@@ -78,9 +79,7 @@ class L2PooledDINOv3ConvNext(torch.nn.Module):
 class DINOv3ConvNeXtDISTS(torch.nn.Module):
     def __init__(self, dinov3_convnext_size):
         super().__init__()
-        self.l2pooled_dinov3_convnext = L2PooledDINOv3ConvNext(dinov3_convnext_size)
-        self.l2pooled_dinov3_convnext.requires_grad_(False)
-        
+        self.l2pooled_dinov3_convnext = L2PooledDINOv3ConvNext(dinov3_convnext_size)        
         self.channels = [3] + self.l2pooled_dinov3_convnext.chns[:3]
         self.init_value = 1 / (2 * sum(self.channels))
 
@@ -106,4 +105,4 @@ class DINOv3ConvNeXtDISTS(torch.nn.Module):
 
         score = 1 - (dist1 + dist2)
 
-        return score.squeeze(-1).squeeze(-1)
+        return score.mean()
