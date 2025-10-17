@@ -545,7 +545,7 @@ def main():
                 # Onestep prediction at mid-timestep
                 pred_img = one_mid_timestep_pred(lq_latent)
 
-                # DINOv3-ConvNext DISTS/FM Loss 
+                # DINOv3-ConvNext DISTS Loss 
                 loss_Dv3D = net_dv3d(pred_img, hq_img) * args.lambda_Dv3D
 
                 # L1 Loss
