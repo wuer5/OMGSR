@@ -24,9 +24,9 @@ Xian Wei<sup>1&dagger;</sup>
 ## :boom: HighLight 
 Unlike the paper, this repo has been further optimized by: 
 
-- Replace ~~*LPIPS Loss (natively support 224 resolution)*~~ with the proposed ***DINOv3-ConNeXt DISTS Loss (natively support 1k or higher resolution)*** for structural perception.
+- Replace ~~*LPIPS Loss (natively support 224 resolution)*~~ with the proposed ***DINOv3-ConvNeXt DISTS Loss (natively support 1k or higher resolution)*** for structural perception.
 
-- Develop ***DINOv3-ConNext Multi-level Discriminator Head (natively support 1k or higher resolution)*** for GAN training.
+- Develop ***DINOv3-ConvNeXt Multi-level Discriminator Head (natively support 1k or higher resolution)*** for GAN training.
 
 ## :boom: News
 If you find OMGSR helpful, we hope for a :star:.
@@ -186,9 +186,9 @@ dataset_txt_or_dir_paths: [path1, path2, ...]
 ```
 Note that ```path1, path2, ...``` can be the ```.txt``` path  (containing the paths of training images)  or the ```folder``` path (containing the training images). The type of images can be ```png, jpg, jpeg```.
 
-### 2. Download the DINOv3-ConvNext
+### 2. Download the DINOv3-ConvNeXt
 
-You can download the <a href="https://drive.google.com/file/d/1-kSZ2BfBJfO4DvEftju__XGT6Rsj596m/view?usp=sharing" target="_blank">DINOv3-ConvNext-Large</a> to the folder `dinov3_gan/dinov3_weights` (please make the folder).
+You can download the <a href="https://drive.google.com/file/d/1-kSZ2BfBJfO4DvEftju__XGT6Rsj596m/view?usp=sharing" target="_blank">DINOv3-ConvNeXt-Large</a> to the folder `dinov3_gan/dinov3_weights` (please make the folder).
 
 ### 3. Prepare your training datasets
 
