@@ -83,6 +83,12 @@ https://imgsli.com/NDIyMDU5
 https://imgsli.com/NDIyMDYw
 https://imgsli.com/NDIyMDYx -->
 
+### *OMGSR-S-512 Results*
+#### *1. RealLQ250x4 (256->1k Resolution) <a href="https://drive.google.com/drive/folders/1316gapum1O0hwv_fxjEXzt8sREWcOp8Y?usp=sharing" target="_blank">Complete Results</a>*
+#### *2. RealLQ200x4 (256->1k Resolution) <a href="https://drive.google.com/drive/folders/1Idwfhz-YS4o6wRNkEf-3lDybbRbVqnUw?usp=sharing" target="_blank">Complete Results</a>*
+#### *3. RealSRx4 (128->512 Resolution) <a href="https://drive.google.com/drive/folders/1o_jplDzjoM9DbInMIgQIVi0RmROk1cGx?usp=sharing" target="_blank">Complete Results</a>*
+#### *4. DrealSRx4 (128->512 Resolution) <a href="https://drive.google.com/drive/folders/1HLBEc9QJ6py26FVSSRcn7SMpTndrOlwe?usp=sharing" target="_blank">Complete Results</a>*
+
 ## Averge Optimal Mid-timestep via Signal-to-Noise Ratio (SNR)
 #### 1. Pre-trained Noisy Latent Representation
 $$
@@ -147,7 +153,7 @@ pip install -r requirements.txt
 
 ### 2. Download the OMGSR Lora adapter weights
 
-- Download the <a href="#">OMGSR-S-512 Lora Adapter Weight</a> (rename it as `omgsr-s-512-adapter`) to the folder `adapters` (please make the folder). *[TODO]*
+- Download the <a href="https://drive.google.com/drive/folders/1JtahuEoofStGGdi-pRpQ9rLHzXQ63a_Q?usp=sharing">OMGSR-S-512 Lora Adapter Weight</a> (rename it as `omgsr-s-512-adapter`) to the folder `adapters` (please make the folder).
 
 - Download the <a href="https://drive.google.com/drive/folders/11pPiyQ7YUpDmc5uyZ0x7uBB07bGBAbov?usp=sharing" target="_blank">OMGSR-F-1024 Lora Adapter Weight</a> (rename it as `omgsr-f-1024-adapter`) to the folder `adapters` (please make the folder).
 
