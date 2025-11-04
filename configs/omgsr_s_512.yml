@@ -1,6 +1,6 @@
 model: omgsr_s_512
 seed: 123
-sd_path: stabilityai/stable-diffusion-2-1
+sd_path: stabilityai/stable-diffusion-2-1-base
 fixed_prompt: ""   # empty prompt is ok!
 fixed_prompt_path: null
 dataset_txt_or_dir_paths: []
