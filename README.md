@@ -146,9 +146,9 @@ pip install -r requirements.txt
 
 ## :rocket: Quick Inference
 
-### 1. Download the pre-trained models from huggingface
+### 1. Download the pre-trained models from HuggingFace
 
-- Download <a href="https://huggingface.co/stabilityai/stable-diffusion-2-1" target="_blank">SD2.1-base</a> for OMGSR-S-512.
+- Download <a href="https://huggingface.co/stabilityai/stable-diffusion-2-1-base" target="_blank">SD2.1-base</a> for OMGSR-S-512.
 - Download <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev" target="_blank">FLUX.1-dev</a> for OMGSR-F-1024.
 
 ### 2. Download the OMGSR Lora adapter weights
@@ -162,7 +162,7 @@ pip install -r requirements.txt
 
 You should put the testing data (```.png```, ```.jpg```, ```.jpeg``` formats) to the folder ```tests```.
 
-### 4. Start to inference
+### 4. Start inference
 
 For OMGSR-S-512:
 ```bash
