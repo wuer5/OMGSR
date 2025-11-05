@@ -6,6 +6,7 @@ import torch
 from torchvision import transforms
 import torchvision.transforms.functional as F
 from tqdm import tqdm
+
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 from infer.wavelet_color_fix import adain_color_fix, wavelet_color_fix
@@ -92,13 +93,14 @@ def main(args):
         
         # Process the image
         with torch.no_grad():
+            input_image = input_image.resize((1024, 1224))
             lq_img = F.to_tensor(input_image).unsqueeze(0).to(device=args.device, dtype=args.weight_dtype) * 2 - 1
             output_image, time = omgsr(lq_img, prompt_embeds, pooled_prompt_embeds, text_ids, latent_image_ids, tile_size, tile_overlap)
             total_time += time
 
         output_image = output_image * 0.5 + 0.5
         output_image = torch.clip(output_image, 0, 1)
-        output_pil = transforms.ToPILImage()(output_image[0].cpu())
+        output_pil = transforms.ToPILImage()(output_image[0].cpu().float())
 
         if args.align_method == 'adain':
             output_pil = adain_color_fix(target=output_pil, source=input_image)
