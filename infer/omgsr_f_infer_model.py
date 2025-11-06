@@ -208,7 +208,9 @@ class OMGSR_F_Infer(torch.nn.Module):
             vae_scale_factor=self.vae_scale_factor,
         )
         lq_latent = (lq_latent / self.vae.config.scaling_factor) + self.vae.config.shift_factor
+        start_time = time.time()
         pred_img = self.vae.decode(lq_latent.to(self.vae.dtype), return_dict=False)[0]
+        print(f"未分片 vae decode done.阶段耗时为:{(time.time() - start_time)} ms")
         return pred_img
 
     def _forward_tile(self, lq_latent, prompt_embeds, pooled_prompt_embeds, text_ids, latent_image_ids, tile_size, tile_overlap):
@@ -231,6 +233,8 @@ class OMGSR_F_Infer(torch.nn.Module):
 
         input_list = []
         noise_preds = []
+        print(f"model forward 多次执行由于图片被分割 {grid_rows}x{grid_cols} tiles.")
+        start_time = time.time()
         for row in range(grid_rows):
             for col in range(grid_cols):
                 if col < grid_cols-1 or row < grid_rows-1:
@@ -286,7 +290,7 @@ class OMGSR_F_Infer(torch.nn.Module):
                     )
                     input_list = []
                 noise_preds.append(model_out)
-
+        print(f"model forward 多次执行 done.阶段耗时为:{(time.time() - start_time)} s")
         # Stitch noise predictions for all tiles
         noise_pred = torch.zeros(lq_latent.shape, device=lq_latent.device)
         contributors = torch.zeros(lq_latent.shape, device=lq_latent.device)
@@ -315,14 +319,16 @@ class OMGSR_F_Infer(torch.nn.Module):
         model_pred = noise_pred
         lq_latent = lq_latent + (self.t_prev - self.t_curr) * model_pred  
         lq_latent = (lq_latent / self.vae.config.scaling_factor) + self.vae.config.shift_factor
+        start_time = time.time()
         pred_img = self.vae.decode(lq_latent.to(self.vae.dtype), return_dict=False)[0]
-
+        print(f"分片 vae decode done.阶段耗时为:{(time.time() - start_time)} s")
         return pred_img
 
     def forward(self, lq_img, prompt_embeds, pooled_prompt_embeds, text_ids, latent_image_ids, tile_size, tile_overlap):
         torch.cuda.synchronize()
         start_time = time.time()
         lq_latent = encode_images(lq_img.to(self.vae.dtype), self.vae, self.weight_dtype)
+        print(f"vae encode done.阶段耗时为:{(time.time() - start_time)} s")
         _, _, h, w = lq_latent.shape
         if h * w <= tile_size * tile_size:
             print(f"[Tiled Latent]: the input size is tiny and unnecessary to tile.")
