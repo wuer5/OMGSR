@@ -85,16 +85,16 @@ def main(args):
         bname = os.path.basename(image_name).split('.')[0] + ".png"
         
         tile_size = args.process_size // 8
-        tile_overlap = tile_size // 4
+        tile_overlap = tile_size // 2
 
         # Process the image
         with torch.no_grad():
-            lq_img = F.to_tensor(input_image).to(device=args.device, dtype=args.weight_dtype) * 2 - 1
+            lq_img = F.to_tensor(input_image).unsqueeze(0).to(device=args.device, dtype=args.weight_dtype) * 2 - 1
             output_image, time = net_sr(lq_img, prompt_embeds, tile_size, tile_overlap)
             total_time += time
 
         output_image = output_image * 0.5 + 0.5
-        output_image = torch.clip(output_image, 0, 1)
+        output_image = torch.clip(output_image, 0, 1).float()
         output_pil = transforms.ToPILImage()(output_image[0].cpu())
 
         if args.align_method == 'adain':
@@ -105,7 +105,7 @@ def main(args):
         if resize_flag:
             output_pil = output_pil.resize((int(args.upscale * ori_width), int(args.upscale * ori_height)))
         output_pil.save(os.path.join(args.output_dir, bname))
-        
+
     print(f"Average inference time: {total_time / len(image_names)}s")
 
 if __name__ == "__main__":
