@@ -1,8 +1,8 @@
 import os
+import time
 import torch
 import ray
 import logging
-import time
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional
@@ -18,7 +18,6 @@ from diffusers import FluxPipeline
 from infer_omgsr_f import _prepare_latent_image_ids
 
 
-# Define request model
 class GenerateRequest(BaseModel):
     resize_height: Optional[int] = Field(default=1224, description="图像缩放后高度")
     resize_width: Optional[int] = Field(default=1024, description="图像缩放后宽度")
@@ -73,7 +72,12 @@ class ImageGenerator:
             self.args.lora_path,
             device=self.device,
             guidance_scale=1.0,
-            mid_timestep=244
+            mid_timestep=244,
+            compile_policy=self.args.compile_policy,
+            torch_compile_fullgraph=self.args.compile_fullgraph,
+            torch_compile_dynamic=self.args.compile_dynamic,
+            torch_compile_mode=self.args.compile_mode,
+            quantize_policy=self.args.quantize_policy,
         )
         self.text_encoding_pipeline = FluxPipeline.from_pretrained(
             self.args.flux_path,
@@ -93,7 +97,7 @@ class ImageGenerator:
                 '', prompt_2=None
             )
         load_time = time.time() - start_time
-        self.logger.info(f"Models loaded successfully! Cost time: {load_time:.2f} sec")
+        self.logger.info(f"Models loaded successfully! Cost time: {load_time:.4f} sec")
 
     def setup_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -108,16 +112,15 @@ class ImageGenerator:
 
     def generate(self, request: GenerateRequest):
         try:
-            total_time = 0
+            start_time = time.time()
             with torch.no_grad():
                 input_image = Image.open(request.input_image).convert('RGB')
                 ori_width, ori_height = input_image.size
-                print('Original input_image size:', input_image.size)
+                self.logger.info(f'Original input_image size:{input_image.size}')
                 rscale = request.upscale
                 resize_flag = False
-                args.process_size = 1024
-                if ori_width < args.process_size // rscale or ori_height < args.process_size // rscale:
-                    scale = (args.process_size // rscale) / min(ori_width, ori_height)
+                if ori_width < request.process_size // rscale or ori_height < request.process_size // rscale:
+                    scale = (request.process_size // rscale) / min(ori_width, ori_height)
                     input_image = input_image.resize((int(scale * ori_width), int(scale * ori_height)))
                     resize_flag = True
 
@@ -126,17 +129,13 @@ class ImageGenerator:
                 new_height = input_image.height - input_image.height % 8
                 input_image = input_image.resize((new_width, new_height), Image.LANCZOS)
                 bname = os.path.basename(request.input_image).split('/')[-1].split('.')[0] + ".png"
-                tile_size = args.process_size // 8
+                tile_size = request.process_size // 8
                 tile_overlap = tile_size // 4
-                start_time = time.time()
                 input_image = input_image.resize((request.resize_width, request.resize_height))
-                print('input_image size after resize:', input_image.size)
+                self.logger.info(f'input_image size after resize: {input_image.size}')
                 lq_img = F.to_tensor(input_image).unsqueeze(0).to(device='cuda:0', dtype=torch.bfloat16) * 2 - 1
                 output_image, time_d = self.omgsr(lq_img, self.prompt_embeds, self.pooled_prompt_embeds, self.text_ids,
                                                   self.latent_image_ids, tile_size, tile_overlap)
-                cost_time = time.time() - start_time
-                print(f"From client time cost: {cost_time:.2f} seconds")
-                total_time += time_d
 
             output_image = output_image * 0.5 + 0.5
             output_image = torch.clip(output_image, 0, 1)
@@ -151,9 +150,10 @@ class ImageGenerator:
                 output_pil = output_pil.resize((int(request.upscale * ori_width), int(request.upscale * ori_height)))
             output_pil.save(os.path.join(request.output_dir, bname))
             cost_time = time.time() - start_time
+            self.logger.info(f"From client time cost: {cost_time:.4f} seconds")
             return {
                 "message": "Image generated successfully",
-                "elapsed_time": f"{cost_time:.2f} sec",
+                "elapsed_time": f"{cost_time:.4f} sec",
                 "output": request.output_dir,
                 "save_to_disk": True
             }
@@ -204,10 +204,21 @@ if __name__ == "__main__":
     parser.add_argument('--port', type=int, default=8000, help='Port number for the server')
     parser.add_argument('--mid_timestep', type=int, default=244)
     parser.add_argument('--guidance_scale', type=float, default=1.0)
+    parser.add_argument('--quantize_policy', type=bool, default=False)
+    parser.add_argument('--compile_policy', type=bool, default=False)
+    parser.add_argument('--compile_fullgraph', type=bool, default=False)
+    parser.add_argument('--compile_dynamic', type=bool, default=True)
+    parser.add_argument('--compile_mode', type=str, default="default")
     args = parser.parse_args()
 
     engine = Engine(
         world_size=args.world_size,
     )
+    print("\nYou have set the following arguments:\n" + "=" * 50)
+    for arg, value in sorted(vars(args).items()):
+        print(f"{arg:<20} = {value}")
+    print("=" * 50 + "\n")
+
+    # Start the server
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=args.port)
