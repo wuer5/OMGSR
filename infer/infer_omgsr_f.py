@@ -88,7 +88,7 @@ def main(args):
         bname = os.path.basename(image_name).split('.')[0] + ".png"
         
         tile_size = args.process_size // 8
-        tile_overlap = tile_size // 4
+        tile_overlap = tile_size // 2
         
         # Process the image
         with torch.no_grad():
@@ -97,8 +97,9 @@ def main(args):
             total_time += time
 
         output_image = output_image * 0.5 + 0.5
-        output_image = torch.clip(output_image, 0, 1)
-        output_pil = transforms.ToPILImage()(output_image[0].cpu().float())
+
+        output_image = torch.clip(output_image, 0, 1).float()
+        output_pil = transforms.ToPILImage()(output_image[0].cpu())
 
         if args.align_method == 'adain':
             output_pil = adain_color_fix(target=output_pil, source=input_image)
