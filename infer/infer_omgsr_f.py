@@ -97,6 +97,7 @@ def main(args):
             total_time += time
 
         output_image = output_image * 0.5 + 0.5
+
         output_image = torch.clip(output_image, 0, 1).float()
         output_pil = transforms.ToPILImage()(output_image[0].cpu())
 

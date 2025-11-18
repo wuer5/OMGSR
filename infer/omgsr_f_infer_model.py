@@ -94,7 +94,9 @@ def create_gaussian_weight(tile_size, sigma=0.3):
     return gaussian_weight
 
 class OMGSR_F_Infer(torch.nn.Module):
-    def __init__(self, flux_path, lora_path, device, weight_dtype=torch.bfloat16, mid_timestep=295, guidance_scale=1.0):
+    def __init__(self, flux_path, lora_path, device, weight_dtype=torch.bfloat16, mid_timestep=295, guidance_scale=1.0,
+                 compile_policy=False, torch_compile_fullgraph=False, torch_compile_dynamic=True,
+                 torch_compile_mode="default", quantize_policy=False):
         super().__init__()
         vae = AutoencoderKL.from_pretrained(
             flux_path,
@@ -129,6 +131,14 @@ class OMGSR_F_Infer(torch.nn.Module):
         flux_transformer.eval()
         self.vae = vae
         self.flux_transformer = flux_transformer
+        if quantize_policy:
+            from torchao.quantization import Float8DynamicActivationFloat8WeightConfig, quantize_
+            quantize_(self.flux_transformer, Float8DynamicActivationFloat8WeightConfig())
+        if compile_policy:
+            from infer.dynamic_shape_patch import apply_torch_compile_dynamic_shape_monkey_patch
+            apply_torch_compile_dynamic_shape_monkey_patch()
+            self.flux_transformer = torch.compile(self.flux_transformer, mode=torch_compile_mode,
+                                                  fullgraph=torch_compile_fullgraph, dynamic=torch_compile_dynamic)
         self.device = device
         # self._init_tiled_vae(encoder_tile_size=1024, decoder_tile_size=224)
 
@@ -313,7 +323,7 @@ class OMGSR_F_Infer(torch.nn.Module):
         # Average overlapping areas with more than 1 contributor
         noise_pred /= contributors
         model_pred = noise_pred
-        lq_latent = lq_latent + (self.t_prev - self.t_curr) * model_pred  
+        lq_latent = lq_latent + (self.t_prev - self.t_curr) * model_pred
         lq_latent = (lq_latent / self.vae.config.scaling_factor) + self.vae.config.shift_factor
         pred_img = self.vae.decode(lq_latent.to(self.vae.dtype), return_dict=False)[0]
 

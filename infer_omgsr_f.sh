@@ -6,7 +6,7 @@ python infer/infer_omgsr_f.py \
     --process_size 1024 \
     --upscale 4 \
     --mid_timestep 244 \
-    --align_method adain 
+    --align_method adain
 
 
 
