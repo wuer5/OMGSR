@@ -130,7 +130,7 @@ class OMGSR_F_Infer(torch.nn.Module):
         self.vae = vae
         self.flux_transformer = flux_transformer
         self.device = device
-        self._init_tiled_vae(encoder_tile_size=1024, decoder_tile_size=224)
+        # self._init_tiled_vae(encoder_tile_size=1024, decoder_tile_size=224)
 
     def _init_tiled_vae(
             self,
