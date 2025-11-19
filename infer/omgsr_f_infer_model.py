@@ -94,7 +94,7 @@ def create_gaussian_weight(tile_size, sigma=0.3):
     return gaussian_weight
 
 class OMGSR_F_Infer(torch.nn.Module):
-    def __init__(self, flux_path, lora_path, device, weight_dtype=torch.bfloat16, mid_timestep=295, guidance_scale=1.0):
+    def __init__(self, flux_path, lora_path, device, weight_dtype=torch.bfloat16, mid_timestep=244, guidance_scale=1.0):
         super().__init__()
         vae = AutoencoderKL.from_pretrained(
             flux_path,
