@@ -30,7 +30,7 @@ Unlike the paper, this repo has been further optimized by:
 
 ## :boom: News
 If you find OMGSR helpful, we hope for a :star:.
-
+- **2026.3.11**: :hugs: We will support for Z-Image (6B) and Longcat-Image (6B)
 - **2025.10.14**: :hugs: **The latest version is released.**
 - **2025.8.16**: The training code is released.
 - **2025.8.15**: The inference code and weights are released.
